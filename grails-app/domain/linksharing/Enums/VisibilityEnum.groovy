@@ -1,20 +1,20 @@
 package linksharing.Enums
 
 enum VisibilityEnum {
-    PRIVATE(0),
+    PRIVATE("private"),
 
-    PUBLIC(1),
+    PUBLIC("public"),
 
-    private final int val
+    private final String val
 
 
 
-    VisibilityEnum(int val){
+     VisibilityEnum(String val){
         this.val = val
     }
 
 
-    int value() {
+    String value() {
         return this.val;
     }
 }

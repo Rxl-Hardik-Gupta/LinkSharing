@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="mt-5">
+            <div class="mt-5" id="subscription">
                 <ul class="list-group">
                     <li
                             class="
@@ -114,22 +114,26 @@
                         <a href="wwwwerwe" class="btn btn-danger"> View All</a>
                     </li>
                     <li class="list-group-item"></li>
-                    <li class="list-group-item">
-                        <div class="mt-2">
-                            <div class="card p-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="image">
-                                        <img
-                                                src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                                class="rounded img-thumbnail"
-                                                width="140"
-                                        />
-                                    </div>
-                                    <div class="ml-3 w-100">
-                                        <h4 class="mb-0 mt-0">Some User</h4>
-                                        <span>Job Title</span>
-                                        <div
-                                                class="
+                    <g:each in="${session.user.subscriptions}" var="${sub}">
+                        <div id="subs">
+                            <li class="list-group-item">
+                                <div class="mt-2">
+                                    <div class="card p-3">
+                                        <div class="d-flex">
+                                            <div class="image img-responsive">
+                                                <img
+                                                        src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+                                                        class="rounded img-thumbnail"
+                                                        width="140"
+                                                />
+                                            </div>
+                                            <div class="ml-3 w-75">
+                                                <!-- <h4 class="mb-0 mt-0">Some User</h4> -->
+                                                <a href="" class="d-block">${sub.topic.topicName}</a>
+                                                <span class="d-block">@${sub.user.userName}</span>
+                                                <a href="#">Unsubscribe</a>
+                                                <div
+                                                        class="
                             p-2
                             mt-2
                             bg-secondary
@@ -139,113 +143,57 @@
                             text-white
                             stats
                           "
-                                        >
-                                            <div class="d-flex flex-column">
-                                                <span class="articles">Subscriptions</span>
-                                                <span class="number">38</span>
+                                                >
+                                                    <div class="d-flex flex-column">
+                                                        <span class="articles">Subscriptions</span>
+                                                        <span class="number">38</span>
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <span class="articles">Post</span>
+                                                        <span class="number">980</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="d-flex flex-column">
-                                                <span class="articles">Topics</span>
-                                                <span class="number">980</span>
-                                            </div>
-                                            <div class="d-flex flex-column">
-                                                <span class="articles">Rating</span>
-                                                <span class="number">8.9</span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div
+                                                    class="
+                          Options
+                          p-2
+                          mt-1
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                          w-100
+                        "
+                                            >
+                                                <form method="get" action="">
+                                                    <div class="form-group">
+                                                        <select class="custom-select" name="seriousness" >
+                                                            <option selected value="SERIOUS">Serious</option>
+                                                            <option value="VERY_SERIOUS" selected>VerySerious</option>
+                                                            <option value="CASUAL">Casual</option>
+                                                        </select>
+                                                    </div>
+                                                </form>
+                                                <form method="get" action="">
+                                                    <div class="form-group">
+                                                        <select class="custom-select" name="visibility">
+                                                            <option value="PRIVATE" selected>Private</option>
+                                                            <option value="PUBLIC">Public</option>
+                                                        </select>
+                                                    </div>
+                                                </form>
+                                                <a href="#">Send Invitation</a>
+                                                <a href="#">Delete</a>
+                                                <a href="#">Edit</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </li>
                         </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="mt-2">
-                            <div class="card p-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="image">
-                                        <img
-                                                src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                                class="rounded img-thumbnail"
-                                                width="140"
-                                        />
-                                    </div>
-                                    <div class="ml-3 w-100">
-                                        <h4 class="mb-0 mt-0">Some User</h4>
-                                        <span>Job Title</span>
-                                        <div
-                                                class="
-                            p-2
-                            mt-2
-                            bg-secondary
-                            d-flex
-                            justify-content-between
-                            rounded
-                            text-white
-                            stats
-                          "
-                                        >
-                                            <div class="d-flex flex-column">
-                                                <span class="articles">Subscriptions</span>
-                                                <span class="number">38</span>
-                                            </div>
-                                            <div class="d-flex flex-column">
-                                                <span class="articles">Topics</span>
-                                                <span class="number">980</span>
-                                            </div>
-                                            <div class="d-flex flex-column">
-                                                <span class="articles">Rating</span>
-                                                <span class="number">8.9</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="mt-2">
-                            <div class="card p-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="image">
-                                        <img
-                                                src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                                class="rounded img-thumbnail"
-                                                width="140"
-                                        />
-                                    </div>
-                                    <div class="ml-3 w-100">
-                                        <h4 class="mb-0 mt-0">Some User</h4>
-                                        <span>Job Title</span>
-                                        <div
-                                                class="
-                            p-2
-                            mt-2
-                            bg-secondary
-                            d-flex
-                            justify-content-between
-                            rounded
-                            text-white
-                            stats
-                          "
-                                        >
-                                            <div class="d-flex flex-column">
-                                                <span class="articles">Subscriptions</span>
-                                                <span class="number">38</span>
-                                            </div>
-                                            <div class="d-flex flex-column">
-                                                <span class="articles">Topics</span>
-                                                <span class="number">980</span>
-                                            </div>
-                                            <div class="d-flex flex-column">
-                                                <span class="articles">Rating</span>
-                                                <span class="number">8.9</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                    </g:each>
                 </ul>
             </div>
         </div>
@@ -369,68 +317,68 @@
 
 
 %{-->>>>>>>>>>>>>>>>>>>>>>>>>>>>Create Topic Modal<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<--}%
-<div
-        class="modal fade"
-        id="createTopicModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
->
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h4 class="modal-title text-white" id="createTopicModalLable">
-                    Create A Topic
-                </h4>
-                <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                >
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="" method="post">
-                    <div class="form-group">
-                        <label for="invitationEmail">Topic Name</label>
-                        <input
-                                type="email"
-                                class="form-control"
-                                name="topicName"
-                                id="topicName"
-                                placeholder=""
-                        />
-                    </div>
+%{--<div--}%
+        %{--class="modal fade"--}%
+        %{--id="createTopicModal"--}%
+        %{--tabindex="-1"--}%
+        %{--role="dialog"--}%
+        %{--aria-labelledby="exampleModalLabel"--}%
+        %{--aria-hidden="true"--}%
+%{-->--}%
+    %{--<div class="modal-dialog" role="document">--}%
+        %{--<div class="modal-content">--}%
+            %{--<div class="modal-header bg-primary">--}%
+                %{--<h4 class="modal-title text-white" id="createTopicModalLable">--}%
+                    %{--Create A Topic--}%
+                %{--</h4>--}%
+                %{--<button--}%
+                        %{--type="button"--}%
+                        %{--class="close"--}%
+                        %{--data-dismiss="modal"--}%
+                        %{--aria-label="Close"--}%
+                %{-->--}%
+                    %{--<span aria-hidden="true">&times;</span>--}%
+                %{--</button>--}%
+            %{--</div>--}%
+            %{--<div class="modal-body">--}%
+                %{--<form action="" method="post">--}%
+                    %{--<div class="form-group">--}%
+                        %{--<label for="invitationEmail">Topic Name</label>--}%
+                        %{--<input--}%
+                                %{--type="email"--}%
+                                %{--class="form-control"--}%
+                                %{--name="topicName"--}%
+                                %{--id="topicName"--}%
+                                %{--placeholder=""--}%
+                        %{--/>--}%
+                    %{--</div>--}%
 
-                    <div class="form-group">
-                        <label for="visibilityEnum"></label>
-                        <select
-                                class="form-control"
-                                name="visibility"
-                                id="visibilityEnum"
-                        >
-                            <option value="0">Public</option>
-                            <option value="1">Private</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-dismiss="modal"
-                >
-                    Close
-                </button>
-                <button type="button" class="btn btn-primary">Create Topic</button>
-            </div>
-        </div>
-    </div>
-</div>
+                    %{--<div class="form-group">--}%
+                        %{--<label for="visibilityEnum"></label>--}%
+                        %{--<select--}%
+                                %{--class="form-control"--}%
+                                %{--name="visibility"--}%
+                                %{--id="visibilityEnum"--}%
+                        %{-->--}%
+                            %{--<option value="0">Public</option>--}%
+                            %{--<option value="1">Private</option>--}%
+                        %{--</select>--}%
+                    %{--</div>--}%
+                %{--</form>--}%
+            %{--</div>--}%
+            %{--<div class="modal-footer">--}%
+                %{--<button--}%
+                        %{--type="button"--}%
+                        %{--class="btn btn-secondary"--}%
+                        %{--data-dismiss="modal"--}%
+                %{-->--}%
+                    %{--Close--}%
+                %{--</button>--}%
+                %{--<button type="button" class="btn btn-primary">Create Topic</button>--}%
+            %{--</div>--}%
+        %{--</div>--}%
+    %{--</div>--}%
+%{--</div>--}%
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>

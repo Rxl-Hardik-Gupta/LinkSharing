@@ -14,6 +14,7 @@ class Resource {
     static mapping = {
 
         table 'RTbl'
+        tablePerHierarchy :true
 
     }
 }

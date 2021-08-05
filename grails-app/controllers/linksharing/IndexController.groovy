@@ -1,13 +1,15 @@
 package linksharing
 
-import grails.web.servlet.mvc.GrailsHttpSession
-
-import javax.servlet.http.HttpSession
 
 class IndexController {
     def IndexService ;
 
     def index() { }
+
+
+    def dashboard() {
+        render(view:'../Dashboard/index') ;
+    }
 
 
 
@@ -21,12 +23,7 @@ class IndexController {
         }
         else {
             User u = map.user;
-//            println("verybefore+++++++++++++++++++" +  session );
-//
-//            HttpSession session = request.session;
-//            println("before+++++++++++++++++++" +  session );
             session.setAttribute('user', u) ;
-            println("after+++++++++++++++++" + session)   ;
             render(view: '/Dashboard/index') ;
         }
     }

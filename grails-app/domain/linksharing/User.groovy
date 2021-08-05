@@ -19,7 +19,6 @@ class User {
     static hasMany = [topics      : Topic, subscriptions: Subscription, resuorces: Resource,
                       readingItems: ReadingItem, resourceRatings: ResourceRating];
 
-
     static constraints = {
 
         email(unique: true);
@@ -32,6 +31,8 @@ class User {
 
     static mapping = {
         table name: "Usrtable"
+         topics fetch: 'join' ;
+        subscriptions fetch: 'join'
 
 //        tablePerHierarchy false
     }

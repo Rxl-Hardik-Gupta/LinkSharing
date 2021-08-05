@@ -2,20 +2,20 @@ package linksharing.Enums
 
 enum SeriousnessEnum {
 
-    CASUAL(0),
-    SERIOUS(1),
-    VERY_SERIOUS(2),
+    CASUAL("casual"),
+    SERIOUS("serious"),
+    VERY_SERIOUS("verySerious"),
 
-    private final int val
+    private final String val
 
 
 
-    SeriousnessEnum(int val){
+    SeriousnessEnum(String val){
         this.val = val
     }
 
 
-    int value() {
+    String value() {
         return this.val;
     }
 
