@@ -31,8 +31,11 @@ class User {
 
     static mapping = {
         table name: "Usrtable"
-         topics fetch: 'join' ;
+        topics fetch: 'join' ;
         subscriptions fetch: 'join'
+        resuorces fetch: 'join'
+        resourceRatings fetch: 'join'
+        readingItems fetch: 'join'
 
 //        tablePerHierarchy false
     }

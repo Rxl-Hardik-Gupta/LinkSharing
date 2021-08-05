@@ -116,11 +116,18 @@
 
                 %{--<!-- <span class="badge"> 1</span> -->--}%
             %{--</a>--}%
-            <a href="#" class="nav-item nav-link messages"
-            ><i class="fa fa-upload" aria-hidden="true"></i>
+            %{--<a href="#" class="nav-item nav-link messages"--}%
+            %{--><i class="fa fa-upload" aria-hidden="true"></i>--}%
 
-                <!-- <span class="badge">10</span> -->
-            </a>
+                %{--<!-- <span class="badge">10</span> -->--}%
+            %{--</a>--}%
+
+        <button data-toggle="modal"
+                data-target="#uploadDocument" class="nav-item nav-link notifications btn btn-light"
+        ><i class="fa fa-upload" aria-hidden="true"></i>
+
+            <!-- <span class="badge"> 1</span> -->
+        </button>
 
             <div class="nav-item dropdown">
                 <a
@@ -305,6 +312,92 @@
                         Close
                     </button>
                     <button type="submit" id="shareLinkSubmit" class="btn btn-primary" onclick="document.getElementById('shareLinkSubmitButton').click()" >Share Link</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</g:if>
+
+
+
+%{--/////////////////////////////////////UpdoadDocumentModal///////////////////////////////////////////////--}%
+
+<g:if test="${session.getAttribute('user') != null}">
+    <div
+            class="modal fade"
+            id="uploadDocument"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title text-white" id="uploadDocumentHeading">
+                        Share Document
+                    </h4>
+                    <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <g:form   controller="dashboard"  action="shareDocument"  enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="fileUpload">Document</label>
+                            <input
+                                    type="file"
+                                    class="form-control"
+                                    name="document"
+                                    id="fileUpload"
+                                    placeholder="Upload a File"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="documentDescription"></label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    name="documentDescription"
+                                    id="documentDescription"
+                                    placeholder="Provide Some Description"
+                            />
+
+                        </div>
+                        <div class="form-group">
+                            <label for="addToTopic"> Topic</label>
+                            <select
+                                    class="form-control"
+                                    name="topic"
+                                    id="addToTopic"
+                            >
+
+                                <g:each in="${session.user.subscriptions}" var="sub" >
+                                    <option value="${sub.topic.id}">${sub.topic.topicName}</option>
+                                </g:each>
+
+                            </select>
+                        </div>
+
+                        <button type="submit" id="uploadDocumentFormButton"  class="invisible"   onclick="ExistingLogic()" > </button>
+                    </g:form>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="submit" id="uploadDocumentExternalButton" class="btn btn-primary" onclick="document.getElementById('uploadDocumentFormButton').click()" >Share</button>
                 </div>
             </div>
         </div>

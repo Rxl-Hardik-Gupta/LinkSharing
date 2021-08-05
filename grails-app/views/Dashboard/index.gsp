@@ -45,6 +45,11 @@
 <body>
 
 <div class="container-fluid">
+
+    <g:if test="${flash.message}">
+        <h5>${flash.message}</h5>
+    </g:if>
+
     <div class="row d-flex justify-content-around">
         <div class="col-4">
             <div class="mt-5">

@@ -15,6 +15,7 @@ class Topic {
     static constraints = {
         createdBy(nullable:false);
         topicName(nullable: false);
-
+        subscribers fetch: 'join'
+        resources fetch: 'join'
     }
 }

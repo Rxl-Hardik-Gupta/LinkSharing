@@ -4,7 +4,7 @@ class Resource {
 
     String description;
     Date dateCreated;
-    Date dateUpdated;
+    Date lastUpdated;
 
     static belongsTo = [createdBy: User, topic: Topic] ;
 
