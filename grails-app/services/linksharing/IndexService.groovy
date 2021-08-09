@@ -40,7 +40,7 @@ class IndexService {
             File photo = new File("/home/rxlogix/LinkSharing/grails-app/assets/images/ProfilePhoto/${params.userName}.png");
             uploadedFile.transferTo(photo) ;
             params.photoPath = "/${params.userName}.png" ;
-        }
+        }else params.photoPath = "" ;
         try{
             User u = new User(params) ;
             u.save(flush: true, failOnError: true) ;

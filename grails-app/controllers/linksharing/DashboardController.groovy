@@ -23,4 +23,9 @@ class DashboardController {
         }
         redirect(controller:'dashboard') ;
     }
+
+    def unsubscribe() {
+        DashboardService.unsubscribe(request, params) ;
+        render(view: '../Dashboard/index')
+    }
 }

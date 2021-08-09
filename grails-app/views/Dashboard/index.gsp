@@ -134,9 +134,12 @@
                                             </div>
                                             <div class="ml-3 w-75">
                                                 <!-- <h4 class="mb-0 mt-0">Some User</h4> -->
-                                                <a href="" class="d-block">${sub.topic.topicName}</a>
+                                                <g:link controller="topic" action="openTopic" params="[topicId: sub.topic.id]">${sub.topic.topicName}</g:link>
+
+                                                %{--<a href="" class="d-block">${sub.topic.topicName}</a>--}%
                                                 <span class="d-block">@${sub.user.userName}</span>
-                                                <a href="#">Unsubscribe</a>
+                                                %{--<a href="#">Unsubscribe</a>--}%
+                                                <g:link controller="dashboard" action="unsubscribe" params="[subId: sub.id]">Unsubscribe</g:link>
                                                 <div
                                                         class="
                             p-2

@@ -14,6 +14,17 @@ class TopicController {
 
     }
 
+
+
+    def openTopic() {
+//        println('PArams+++++++++++++++++++' + params) ;
+//        println("ParamMap>>>>>>>>>>>>>>>>>"  + request.parameterMap.toString()) ;
+        println(params.topicId as Integer) ;
+        Topic t =  Topic.get(request.parameterMap.topicId );
+        request.session.setAttribute('topic', t) ;
+        render(view: '../topic/index') ;
+     }
+
     def createTopic (){
         println "Controller is Called"
         Topic topic = TopicService.createTopic(request, params) ;

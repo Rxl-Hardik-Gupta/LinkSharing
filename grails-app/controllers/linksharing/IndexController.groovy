@@ -4,7 +4,11 @@ package linksharing
 class IndexController {
     def IndexService ;
 
-    def index() { }
+    def index() {
+
+
+
+    }
 
 
     def dashboard() {
@@ -19,7 +23,7 @@ class IndexController {
         Map map = IndexService.AuthenticateCredentials(params) ;
         if(!map.message.equals("")) {
             flash.message = map.message;
-            render(view:'/index') ;
+            redirect(uri: '/') ;
         }
         else {
             User u = map.user;
@@ -32,9 +36,13 @@ class IndexController {
     def register() {
 
         Map map = IndexService.createUser(request, params) ;
+        println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT" + " " +  request.getFile('photoPath')) ;
         if(map.exception == null) flash.registerMessage = map.message ;
         else flash.error = map.exception;
-        render('view':'../index');
+        println(map.exception) ;
+        redirect(uri:'/');
     }
+
+
 
 }

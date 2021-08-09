@@ -54,6 +54,17 @@ class DashboardService {
         return result;
     }
 
+    def unsubscribe(HttpServletRequest request, GrailsParameterMap params) {
+        User loggedInUser = request.session.getAttribute('user') as User;
+
+        Subscription sub = Subscription.get(request.parameterMap.subId )
+        loggedInUser.subscriptions.remove(sub) ;
+//        sub.delete() ;
+    }
+
+
+
+
 //    def fileUpload()
 //    {
 //        MultipartFile myFile = params.myfile

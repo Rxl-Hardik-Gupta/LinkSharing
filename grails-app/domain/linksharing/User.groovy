@@ -6,15 +6,14 @@ class User {
 
 
     String email;
-    String userName;
     String firstName;
     String lastName;
+    String userName;
     String password;
-
-    String photoPath;
-    Boolean admin;
     Date dateCreated;
     Date lastUpdated;
+    Boolean admin;
+    String photoPath;
 
     static hasMany = [topics      : Topic, subscriptions: Subscription, resuorces: Resource,
                       readingItems: ReadingItem, resourceRatings: ResourceRating];
@@ -25,12 +24,13 @@ class User {
         userName(unique: true);
         firstName(blank: false, nullable: false);
         password(nullable: false, blank: false);
-        photoPath(nullable: true, blank: true);
+        admin nullable:true, bank: true;
+        photoPath nullable: true, blank: true;
 
     }
 
     static mapping = {
-        table name: "Usrtable"
+        table name: "UserTable"
         topics fetch: 'join' ;
         subscriptions fetch: 'join'
         resuorces fetch: 'join'
