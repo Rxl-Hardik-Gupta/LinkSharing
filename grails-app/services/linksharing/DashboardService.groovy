@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
+import java.lang.reflect.Parameter
 
 @Transactional
 class DashboardService {
@@ -14,15 +15,46 @@ class DashboardService {
 
     }
 
+    def fetchInbox(HttpServletRequest request) {
+        List<ReadingItem> resourceList = new ArrayList<>() ;
+        User user = request.session.getAttribute('user') as User ;
+        for(ReadingItem rd : ReadingItem.all) {
+            println(rd.class);
+            if(!rd.isRead) resourceList.add(rd) ;
+        }
+        request.session.setAttribute('inbox', resourceList) ;
+
+    }
+    def fetchTrending(HttpServletRequest request) {
+        List<Topic>  topics = new ArrayList<>() ;
+        topics = Topic.list() ;
+        Collections.sort(topics,new Comparator<Topic>(){
+            @Override
+            public int compare( Topic t1,Topic  t2) {
+                return  t2.resources.size() - t1.resources.size() ;
+            }
+        });
+
+        request.session.setAttribute('trending', topics) ;
+    }
+
     def addLinkToTopic(HttpSession session, GrailsParameterMap params) {
         User loggedInUser = session.getAttribute('user') as User;
+        User temp = User.get(loggedInUser.id) ;
         Topic addLinkTo = Topic.get(params.topic) ;
         Resource newLink = new LinkResource(url: params.url, description: params.description, createdBy: loggedInUser, topic: addLinkTo);
+        ReadingItem rd = new ReadingItem(resource: newLink, user: temp, isRead: false);
+
         newLink.save(flush: true, failOnError: true);
-        loggedInUser.resuorces.add(newLink) ;
+//        loggedInUser.resources.add(newLink) ;
+        temp.getResources().add(newLink) ;
+        temp.getReadingItems().add(rd) ;
         addLinkTo.resources.add(newLink) ;
         println addLinkTo.topicName ;
         addLinkTo.save(flush: true) ;
+        temp.save() ;
+        rd.save() ;
+        session.setAttribute('user', temp) ;
         println newLink;
     }
 
@@ -37,6 +69,7 @@ class DashboardService {
             uploadedDoc.transferTo(doc) ;
             String filePath = doc.getAbsolutePath() ;
             Resource documentResource = new DocumentResource(description: params.documentDescription, createdBy: loggedInUser,filePath: filePath, topic: topic);
+            ReadingItem rd = new ReadingItem(resource: documentResource, user: loggedInUser, isRead: false) ;
             documentResource.validate() ;
             if(documentResource.hasErrors()) {
                 result.errors = new ArrayList<>() ;
@@ -47,68 +80,25 @@ class DashboardService {
             }else{
                 documentResource.save(flush: true, failOnError: true) ;
                 topic.resources.add(documentResource) ;
-                loggedInUser.resuorces.add(documentResource) ;
+                loggedInUser.resources.add(documentResource) ;
                 result.success = "Success" ;
             }
+            rd.save() ;
         }
         return result;
     }
 
     def unsubscribe(HttpServletRequest request, GrailsParameterMap params) {
         User loggedInUser = request.session.getAttribute('user') as User;
+        User temp = User.get(loggedInUser.id) ;
 
         Subscription sub = Subscription.get(request.parameterMap.subId )
-        loggedInUser.subscriptions.remove(sub) ;
-//        sub.delete() ;
+        Topic topic = Topic.get(sub.topic.id) ;
+        temp.removeFromSubscriptions(sub) ;
+        topic.removeFromSubscribers(sub) ;
+        sub.delete(flush:true) ;
+//        temp.save() ;
+        request.session.setAttribute('user', temp) ;
     }
-
-
-
-
-//    def fileUpload()
-//    {
-//        MultipartFile myFile = params.myfile
-//        File file = new File("/home/rxlogix/newProject/Files/${myFile.originalFilename}")
-//        myFile.transferTo(file)
-//        String path = file.getAbsolutePath()
-//        LinkUser u = session.getAttribute("user")
-//        LinkUser u1 = LinkUser.get(u.id)
-//        String t = params.get("topi")
-//        Topic topic = Topic.findByName(t)
-//        MainResource r = new DocumentRsource(description: params.get("document"),createdBy: u1,topic: topic,filePath: path)
-//        r.validate()
-//        if(r.hasErrors())
-//        {
-//            r.errors.allErrors.each {
-//                println it
-//            }
-//        }
-//        else{
-//            r.save(flush:true,failOnError:true)
-//            topic.addToResources(r)
-//            topic.createdBy.addToResources(r)
-//        }
-//        session.setAttribute("user",u1)
-//        redirect(controller:"dashboard",action:"dashboard")
-//    }
-
-
-
-//    MultipartFile uploadedFile = request.getFile('photoPath');
-//    Map map = ['message': null as String, 'exception': null as String] ;
-//
-//    if(uploadedFile && !uploadedFile.empty){
-//        File photo = new File("/home/rxlogix/LinkSharing/grails-app/assets/images/ProfilePhoto/${params.userName}.png");
-//        uploadedFile.transferTo(photo) ;
-//        params.photoPath = "/${params.userName}.png" ;
-//    }
-//    try{
-//        User u = new User(params) ;
-//        u.save(flush: true, failOnError: true) ;
-//        map.message = "User Registered Successfully" ;
-//    }catch(Exception e) {
-//        map.exception = e.toString();
-//    }
-//    return map;
 
 }

@@ -11,4 +11,8 @@ class ReadingItem {
     static constraints = {
 
     }
+    static mapping = {
+        resource fetch: 'join'
+        user fetch: 'join'
+    }
 }

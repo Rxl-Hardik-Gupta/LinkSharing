@@ -1,5 +1,7 @@
 package linksharing
 import linksharing.Enums.VisibilityEnum
+
+
 class Topic {
 
     String topicName;
@@ -15,7 +17,15 @@ class Topic {
     static constraints = {
         createdBy(nullable:false);
         topicName(nullable: false);
-        subscribers fetch: 'join'
-        resources fetch: 'join'
+
+    }
+    static mapping = {
+        resources fetch: 'join';
+        subscribers fetch: 'join';
+
+        createdBy fetch: 'join';
+
+        subscribers cascade: 'all-delete-orphan'
+        resources cascade: 'all-delete-orphan'
     }
 }

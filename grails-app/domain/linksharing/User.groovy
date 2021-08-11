@@ -15,7 +15,7 @@ class User {
     Boolean admin;
     String photoPath;
 
-    static hasMany = [topics      : Topic, subscriptions: Subscription, resuorces: Resource,
+    static hasMany = [topics      : Topic, subscriptions: Subscription, resources: Resource,
                       readingItems: ReadingItem, resourceRatings: ResourceRating];
 
     static constraints = {
@@ -30,13 +30,20 @@ class User {
     }
 
     static mapping = {
-        table name: "UserTable"
-        topics fetch: 'join' ;
+        table  "UserTable"
+
+
+        topics fetch: 'join'
         subscriptions fetch: 'join'
-        resuorces fetch: 'join'
         resourceRatings fetch: 'join'
+        resources fetch: 'join'
         readingItems fetch: 'join'
 
+        topics cascade: 'all-delete-orphan'
+        resources cascade: 'all-delete-orphan'
+        readingItems cascade: 'all-delete-orphan'
+        resourceRatings cascade: 'all-delete-orphan'
+        subscriptions cascade: 'all-delete-orphan'
 //        tablePerHierarchy false
     }
 

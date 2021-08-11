@@ -13,7 +13,9 @@ class Resource {
 
     static mapping = {
 
-        table 'RTbl'
+        table  'RTbl'
+        createdBy fetch: 'join'
+        topic fetch: 'join'
         tablePerHierarchy :true
 
     }

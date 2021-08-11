@@ -28,7 +28,7 @@ class AfterLoginController {
                 // ok: session is already invalidated
 
             } finally{
-                render('view':'../index') ;
+                redirect(controller: 'index' );
             }
     }
 

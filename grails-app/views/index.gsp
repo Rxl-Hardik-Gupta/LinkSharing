@@ -31,115 +31,63 @@
     <div class="row d-flex justify-content-around">
         <div class="col-7">
             <ul class="list-group">
-                <h3 class="list-group-item active">Recent Shares</h3>
+                <li class="list-group-item active">
+                    <h3>Latest Shares</h3>
+                </li>
+                <g:each in="${latestResources}" var="post">
 
-                <li class="list-group-item">
-                    <div>
-                        <div class="card p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="image img-thumbnail">
-                                    <img
-                                            src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                            class="rounded"
-                                            width="140"/>
-                                </div>
+                %{--createdBy--}%
+                    <li class="list-group-item">
+                        <div>
+                            <div class="card p-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="image img-thumbnail">
+                                        <asset:image width="300" src="./ProfilePhoto${post.createdBy.photoPath}"  class="rounded img-thumbnail" alt="Avatar"/>
 
-                                <div class="ml-3 w-100">
-                                    <h4 class="mb-0 mt-0">Some User</h4>
-                                    <span>Job Title</span>
-
-                                    <div
-                                            class="
+                                    </div>
+                                    <div class="ml-3 w-100">
+                                        <h4 class="mb-0 mt-0">${post.createdBy.firstName + " " + post.createdBy.lastName}</h4>
+                                        <span>@ ${post.createdBy.userName}</span>
+                                        <div
+                                                class="
                           p-2
                           mt-2
                           d-flex
                           justify-content-between
                           rounded
                           stats
-                        ">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit. Nesciunt eum quaerat distinctio neque quae
-                                            expedita minus maiores fugit! Vero sed eum mollitia
-                                            fugiat nisi aspernatur illum, ipsa reprehenderit
-                                            facilis deleniti?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <div class="card p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="image img-thumbnail">
-                                    <img
-                                            src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                            class="rounded"
-                                            width="140"/>
-                                </div>
-
-                                <div class="ml-3 w-100">
-                                    <h4 class="mb-0 mt-0">Some User</h4>
-                                    <span>Job Title</span>
-
-                                    <div
-                                            class="
+                        "
+                                        >
+                                            <p>
+                                                ${post.description}
+                                            </p>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div
+                                                    class="
+                          Options
                           p-2
-                          mt-2
+                          mt-1
                           d-flex
                           justify-content-between
-                          rounded
-                          stats
-                        ">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                                            elit. Voluptate libero vero pariatur eum est animi.
-                                            Dignissimos maxime sint et at.
-                                        </p>
+                          align-items-center
+                          w-100
+                        "
+                                            >
+
+                                                <a href="#">Download</a>
+                                                <a href="#">View Full Site</a>
+                                                <a href="#">Mark as Read</a>
+                                                <a href="#">View Post</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <div class="card p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="image img-thumbnail">
-                                    <img
-                                            src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                            class="rounded"
-                                            width="140"/>
-                                </div>
+                    </li>
+                </g:each>
 
-                                <div class="ml-3 w-100">
-                                    <h4 class="mb-0 mt-0">Some User</h4>
-                                    <span>Job Title</span>
-
-                                    <div
-                                            class="
-                          p-2
-                          mt-2
-                          d-flex
-                          justify-content-between
-                          rounded
-                          stats
-                        ">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                                            elit. Voluptate libero vero pariatur eum est animi.
-                                            Dignissimos maxime sint et at.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
             </ul>
             <ul class="list-group mt-4">
                 <!-- <li

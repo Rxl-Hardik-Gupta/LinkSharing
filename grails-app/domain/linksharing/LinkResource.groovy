@@ -7,4 +7,5 @@ class LinkResource extends Resource{
     static constraints = {
 
     }
+
 }

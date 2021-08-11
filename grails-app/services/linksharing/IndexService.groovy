@@ -12,6 +12,14 @@ class IndexService {
     def serviceMethod() {
 
     }
+
+    List<Resource> fetchLatestResources() {
+        List<Resource> list = Resource.createCriteria().list {
+            order("dateCreated", 'desc') ;
+        }
+        return list;
+    }
+
     Map AuthenticateCredentials(GrailsParameterMap params) {
 
         String em = params.loginEmail ;
@@ -26,6 +34,8 @@ class IndexService {
 
         }else{
             map.user = u ;
+
+
         }
         return map;
 

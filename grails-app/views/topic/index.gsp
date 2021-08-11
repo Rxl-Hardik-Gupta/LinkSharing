@@ -15,7 +15,7 @@
                         <div class="d-flex align-items-center">
                             <div class="image">
 
-                                <asset:image width="300" src="./ProfilePhoto${session ? session.user?.photoPath : ''}"  class="rounded img-thumbnail" alt="Avatar"/>
+                                <asset:image width="300" src="./ProfilePhoto${session ? session.topic.createdBy?.photoPath : ''}"  class="rounded img-thumbnail" alt="Avatar"/>
                             </div>
                             <div class="ml-3 w-100">
                                 <h4 class="mb-0 mt-0">${session.topic.topicName} ( ${session.topic.visibility} )</h4>
@@ -75,7 +75,7 @@
                                             <div class="d-flex">
                                                 <div class="image img-responsive">
 
-                                                    <asset:image width="300" src="./ProfilePhoto${ sub.user.photoPath}"  class="rounded img-thumbnail" alt="Avatar"/>
+                                                    <asset:image width="300" src="./ProfilePhoto${session ? session.topic.createdBy?.photoPath : ''}"  class="rounded img-thumbnail" alt="Avatar"/>
 
                                                 </div>
                                                 <div class="ml-3 w-75">
@@ -145,6 +145,25 @@
                                                 <p>
                                                     ${post.description}
                                                 </p>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div
+                                                        class="
+                          Options
+                          p-2
+                          mt-1
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                          w-100
+                        "
+                                                >
+
+                                                    <a href="#">Download</a>
+                                                    <a href="#">View Full Site</a>
+                                                    <a href="#">Mark as Read</a>
+                                                    <a href="#">View Post</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

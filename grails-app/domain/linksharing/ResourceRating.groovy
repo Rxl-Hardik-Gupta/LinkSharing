@@ -13,4 +13,8 @@ class ResourceRating {
 
     static constraints = {
     }
+    static mapping = {
+        resource fetch: 'join' ;
+        user fetch: 'join' ;
+    }
 }

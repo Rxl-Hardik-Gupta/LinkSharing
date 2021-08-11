@@ -7,12 +7,14 @@ class DashboardController {
 
 
     def index() {
+        DashboardService.fetchInbox(request);
+        DashboardService.fetchTrending(request) ;
         render(view: '../Dashboard/index');
     }
 
     def createShareLink() {
         DashboardService.addLinkToTopic(request.session, params) ;
-        render LinkResource.list() ;
+        redirect(controller: 'dashboard') ;
     }
     def shareDocument() {
         Map map = DashboardService.uploadDocument(request, params)  ;
@@ -26,6 +28,6 @@ class DashboardController {
 
     def unsubscribe() {
         DashboardService.unsubscribe(request, params) ;
-        render(view: '../Dashboard/index')
+        redirect(view:'dashboard')
     }
 }
