@@ -13,6 +13,7 @@ class User {
     Date dateCreated;
     Date lastUpdated;
     Boolean admin;
+    Boolean active ;
     String photoPath;
 
     static hasMany = [topics      : Topic, subscriptions: Subscription, resources: Resource,
@@ -31,7 +32,7 @@ class User {
 
     static mapping = {
         table  "UserTable"
-
+//        active defaultValue: "true";
 
         topics fetch: 'join'
         subscriptions fetch: 'join'

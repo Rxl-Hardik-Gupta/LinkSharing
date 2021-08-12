@@ -8,12 +8,12 @@ class IndexController {
         Map map = new HashMap() ;
         List<Resource> resourceList = IndexService.fetchLatestResources() ;
         map.put('latestResources', resourceList) ;
-
+        List<Topic> trendingTopics = IndexService.fetchTrending() ;
         for(def key : map.keySet()) {
             println "this is mappppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp" ;
             println key + " " + map.get(key) ;
         }
-        render(view: '../index', model: ["latestResources": resourceList]);
+        render(view: '../index', model: ["latestResources": resourceList, trending:trendingTopics]);
     }
 
 

@@ -57,9 +57,16 @@
 
 
 <nav class="navbar navbar-expand navbar-light bg-light sticky-top">
-    <a href="#" class="navbar-brand"
-    ><i class="fa fa-cube"></i>Link<b>Sharing</b></a
-    >
+
+    <g:if test="${session && session.getAttribute('user') != null}">
+        <g:link controller="dashboard" class="navbar-brand"
+        ><i class="fa fa-cube"></i>Link<b>Sharing</b></g:link>
+    </g:if>
+    <g:else>
+        <g:link controller="index" class="navbar-brand"
+        ><i class="fa fa-cube"></i>Link<b>Sharing</b></g:link>
+    </g:else>
+
     <button
             type="button"
             class="navbar-toggler"
@@ -129,6 +136,14 @@
             <!-- <span class="badge"> 1</span> -->
         </button>
 
+        <button data-toggle="modal"
+
+                data-target="#sendInviteModal" class="nav-item nav-link notifications btn btn-light"
+        ><i class="fa fa-mail-forward" aria-hidden="true"></i>
+
+            <!-- <span class="badge"> 1</span> -->
+        </button>
+
             <div class="nav-item dropdown">
                 <a
                         href="#"
@@ -145,9 +160,14 @@
                     ${session ? session.user.firstName + " " + session.user.lastName: ''} <b class="caret"></b
                 ></a>
                 <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item"
-                    ><i class="fa fa-user"></i> Profile</a
-                    >
+
+                    <g:link controller="profile"  class="dropdown-item">
+
+                        <i class="fa fa-user"></i> Profile</g:link>
+                    <div class="dropdown-divider"></div>
+                    <g:link controller="user" action="showUsers"  class="dropdown-item">
+
+                        <i class="fa fa-user"></i> Users</g:link>
                     <div class="dropdown-divider"></div>
                     <g:link controller="afterLogin" action="logout" class="dropdown-item">
 
@@ -404,6 +424,80 @@
     </div>
 </g:if>
 
+
+%{--/////////////////////////////////?Send Invite Modal/////////////////////--}%
+
+<g:if test="${session.getAttribute('user') != null}">
+    <div
+            class="modal fade"
+            id="sendInviteModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title text-white" id="invite-heading">
+                        Send Invite
+                    </h4>
+                    <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <g:form   controller="topic"  action="sendInvite"  >
+                        <div class="form-group">
+                            <label for="invite-email">Enter Email</label>
+                            <input
+                                    type="email"
+                                    class="form-control"
+                                    name="email"
+                                    id="invite-email"
+                                    placeholder="Email should Contain A valid Domain And '@'"
+                            />
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="invite-topic"> Topic</label>
+                            <select
+                                    class="form-control"
+                                    name="topicId"
+                                    id="invite-topic"
+                            >
+
+                                <g:each in="${session.user.subscriptions}" var="sub" >
+                                    <option value="${sub.topic.id}">${sub.topic.topicName}</option>
+                                </g:each>
+
+                            </select>
+                        </div>
+
+                        <button type="submit" id="send-invite-button"  class="invisible"   onclick="ExistingLogic()" > </button>
+                    </g:form>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="submit" id="send-invite-external-button" class="btn btn-primary" onclick="document.getElementById('send-invite-button').click()" >Send Invite</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</g:if>
 
 
 

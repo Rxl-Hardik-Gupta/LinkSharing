@@ -14,10 +14,10 @@ class BootStrap {
 
     def createUser(){
 
-        User u1 = new User(email: 'h@g.c', firstName: 'Hardik', lastName: 'Gupta', userName: 'username', password: '1', admin: true, subscriptions: []) ;
-        User u2 = new User(email: 'j@g.c', firstName: 'John', lastName: 'Oliver', userName: 'jo', password: '1', admin: true, subscriptions: []) ;
-        User u3 = new User(email: 'a@g.c', firstName: 'Allan', lastName: 'Donald', userName: 'allan', password: '1', admin: true, subscriptions: []) ;
-        User u4 = new User(email: 'ja@g.c', firstName: 'Jacob', lastName: 'Oram', userName: 'jacob', password: '1', admin: true, subscriptions: []) ;
+        User u1 = new User(email: 'h@g.c', firstName: 'Hardik', lastName: 'Gupta', userName: 'username', password: '1', admin: true, subscriptions: [], active: true) ;
+        User u2 = new User(email: 'j@g.c', firstName: 'John', lastName: 'Oliver', userName: 'jo', password: '1', admin: true, subscriptions: [],active: true) ;
+        User u3 = new User(email: 'a@g.c', firstName: 'Allan', lastName: 'Donald', userName: 'allan', password: '1', admin: true, subscriptions: [], active: true) ;
+        User u4 = new User(email: 'ja@g.c', firstName: 'Jacob', lastName: 'Oram', userName: 'jacob', password: '1', admin: true, subscriptions: [],active: true) ;
        u1.save(flush:true) ;
        u2.save(flush:true) ;
        u3.save(flush:true) ;

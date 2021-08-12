@@ -1,4 +1,4 @@
-<%@ page import="linksharing.Resource; linksharing.Subscription" %>
+<%@ page import="linksharing.ResourceRating; linksharing.Resource; linksharing.Subscription" %>
 <%@ page import="linksharing.Topic" %>
 <%@ page import="linksharing.User" %>
 <%@ page import="linksharing.Resource" %>
@@ -22,11 +22,7 @@
             integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
             crossorigin="anonymous"/>
 
-    <link
-            rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-            crossorigin="anonymous"/>
+
     <link
             rel="stylesheet"
             href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
@@ -45,7 +41,7 @@
 </head>
 
 
-<body>
+<body onload="rating(4);">
 
 <div class="container-fluid mt-5">
     <div class="row d-flex justify-content-around">
@@ -69,15 +65,27 @@
                                         <div>
                                             <h4 class="mb-0 mt-0">${res.createdBy.firstName + " " + res.createdBy.lastName}</h4>
                                             <span>@ ${res.createdBy.userName}</span>
-                                            <div class="star-rating">
-                                                <span class="fa fa-star-o" data-rating="1"></span>
-                                                <span class="fa fa-star-o" data-rating="2"></span>
-                                                <span class="fa fa-star-o" data-rating="3"></span>
-                                                <span class="fa fa-star-o" data-rating="4"></span>
-                                                <span class="fa fa-star-o" data-rating="5"></span>
-                                                <input type="hidden" name="whatever1" class="rating-value" value="2.56" >
+                                            %{--<div class="star-rating">--}%
+                                                %{--<span class="fa fa-star-o" data-rating="1"></span>--}%
+                                                %{--<span class="fa fa-star-o" data-rating="2"></span>--}%
+                                                %{--<span class="fa fa-star-o" data-rating="3"></span>--}%
+                                                %{--<span class="fa fa-star-o" data-rating="4"></span>--}%
+                                                %{--<span class="fa fa-star-o" data-rating="5"></span>--}%
+                                                %{--<input type="hidden" name="whatever1" class="rating-value" value="2.56" >--}%
 
-                                            </div>
+                                            %{--</div>--}%
+                                            <div class="rate">
+                                            <input type="radio" id="star5" name="rate" value="5" onclick="rate(5, ${res.id})" />
+                                            <label for="star5" title="text">5 stars</label>
+                                            <input type="radio" id="star4" name="rate" value="4" onclick="rate(4, ${res.id})"/>
+                                            <label for="star4" title="text">4 stars</label>
+                                            <input type="radio" id="star3" name="rate" value="3" onclick="rate(3, ${res.id})"/>
+                                            <label for="star3" title="text">3 stars</label>
+                                            <input type="radio" id="star2" name="rate" value="2" onclick="rate(2, ${res.id})"/>
+                                            <label for="star2" title="text">2 stars</label>
+                                            <input type="radio" id="star1" name="rate" value="1" onclick="rate(1, ${res.id})"/>
+                                            <label for="star1" title="text">1 star</label>
+                                        </div>
                                         </div>
                                         <div
                                                 class="

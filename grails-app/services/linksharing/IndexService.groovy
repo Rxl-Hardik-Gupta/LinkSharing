@@ -13,8 +13,21 @@ class IndexService {
 
     }
 
+    List<Topic> fetchTrending() {
+        List<Topic>  topics = new ArrayList<>() ;
+        topics = Topic.list() ;
+        Collections.sort(topics,new Comparator<Topic>(){
+            @Override
+            public int compare( Topic t1,Topic  t2) {
+                return  t2.resources.size() - t1.resources.size() ;
+            }
+        });
+        return topics;
+
+    }
+
     List<Resource> fetchLatestResources() {
-        List<Resource> list = Resource.createCriteria().list {
+        List<Resource> list = Resource.createCriteria().listDistinct {
             order("dateCreated", 'desc') ;
         }
         return list;
@@ -46,6 +59,7 @@ class IndexService {
         MultipartFile uploadedFile = request.getFile('photoPath');
         Map map = ['message': null as String, 'exception': null as String] ;
 
+        params.setProperty('active', true) ;
         if(uploadedFile && !uploadedFile.empty){
             File photo = new File("/home/rxlogix/LinkSharing/grails-app/assets/images/ProfilePhoto/${params.userName}.png");
             uploadedFile.transferTo(photo) ;

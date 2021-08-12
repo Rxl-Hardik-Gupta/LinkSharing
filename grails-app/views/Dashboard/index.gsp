@@ -8,7 +8,7 @@
 <!doctype html>
 <html lang="en" >
 <head>
-    %{--<meta name="layout" content="main"/>--}%
+    <meta name="layout" content="main"/>
     <title>Dashboard</title>
 
     <asset:stylesheet href="dashboard.css"/>
@@ -54,368 +54,32 @@
 
 <body>
 
-%{--////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--}%
-<nav class="navbar navbar-expand navbar-light bg-light sticky-top">
-    <a href="#" class="navbar-brand"
-    ><i class="fa fa-cube"></i>Link<b>Sharing</b></a
-    >
-    <button
-            type="button"
-            class="navbar-toggler"
-            data-toggle="collapse"
-            data-target="#navbarCollapse"
-    >
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <!-- Collection of nav links, forms, and other content for toggling -->
-    <div
-            id="navbarCollapse"
-            class="collapse navbar-collapse justify-content-start"
-    >
-        <form class="navbar-form form-inline">
-            <div class="input-group search-box">
-                <input
-                        type="text"
-                        id="search"
-                        class="form-control"
-                        placeholder="Search by Name"
-                />
-                <span class="input-group-addon"
-                ><i class="material-icons">&#xE8B6;</i></span
-                >
-            </div>
-
-            %{--//////////////////////--}%
-
-            %{--<g:link controller="afterLogin" action="logout" class="dropdown-item">--}%
-
-            %{--<i class="material-icons">&#xE8AC;</i>--}%
-            %{--Logout</g:link>--}%
-            %{--///////////////--}%
-
-        </form>
-
-        <g:if test="${session && session.getAttribute('user') }">
-
-            <div class="navbar-nav ml-auto">
-                <button data-toggle="modal"
-                        data-target="#createTopicModal" class="nav-item nav-link notifications btn btn-light"
-                ><i class="fa fa-comments" aria-hidden="true"></i>
-
-                    <!-- <span class="badge"> 1</span> -->
-                </button>
-                <button data-toggle="modal"
-                        data-target="#addTopicLink" class="nav-item nav-link notifications btn btn-light"
-                ><i class="fa fa-link" aria-hidden="true"></i>
-
-                    <!-- <span class="badge"> 1</span> -->
-                </button>
-        %{--<a href="#" class="nav-item nav-link notifications"--}%
-        %{--><i class="fa fa-link" aria-hidden="true"></i>--}%
-
-        %{--<!-- <span class="badge"> 1</span> -->--}%
-        %{--</a>--}%
-        %{--<a href="#" class="nav-item nav-link messages"--}%
-        %{--><i class="fa fa-upload" aria-hidden="true"></i>--}%
-
-        %{--<!-- <span class="badge">10</span> -->--}%
-        %{--</a>--}%
-
-            <button data-toggle="modal"
-                    data-target="#uploadDocument" class="nav-item nav-link notifications btn btn-light"
-            ><i class="fa fa-upload" aria-hidden="true"></i>
-
-                <!-- <span class="badge"> 1</span> -->
-            </button>
-
-            <div class="nav-item dropdown">
-                <a
-                        href="#"
-                        data-toggle="dropdown"
-                        class="nav-link dropdown-toggle user-action"
-                >
-
-                    <asset:image src="./ProfilePhoto${session ? session.user?.photoPath : ''}"  class="avatar" alt="Avatar"/>
-
-                    %{--<img--}%
-                    %{--src="../../assets/images/ProfilePhoto${session.user.photoPath}"--}%
-                    %{--class="avatar"--}%
-                    %{--alt="Avatar" />--}%
-                    ${session ? session.user.firstName + " " + session.user.lastName: ''} <b class="caret"></b
-                ></a>
-                <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item"
-                    ><i class="fa fa-user"></i> Profile</a
-                    >
-                    <div class="dropdown-divider"></div>
-                    <g:link controller="afterLogin" action="logout" class="dropdown-item">
-
-                        <i class="material-icons">&#xE8AC;</i>
-                        Logout</g:link>
-
-                </div>
-            </div>
-
-
-
-
-
-
-        </g:if>
-    </div>
-</nav>
-%{-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>...Modlas<<<<<<<<<<<<<<<<<<<,,,,,,,,,,,--}%
-<div
-        class="modal fade"
-        id="createTopicModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
->
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h4 class="modal-title text-white" id="createTopicModalLable">
-                    Create A Topic
-                </h4>
-                <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                >
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                %{--<g:form   controller="topic"   action="createTopic"  method="get">--}%
-                <div class="form-group">
-                    <label for="topicName">Topic Name</label>
-                    <input
-                            type="text"
-                            class="form-control"
-                            name="topicName"
-                            id="topicName"
-                            placeholder=""
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label for="visibility"></label>
-                    <select
-                            class="form-control"
-                            name="visibility"
-                            id="visibility"
-                    >
-                        <option value="PUBLIC">Public</option>
-                        <option value="PRIVATE">Private</option>
-                    </select>
-                </div>
-                %{--<button type="submit" id="createTopicFormSubmit"  class="invisible"   onclick="ExistingLogic()" > </button>--}%
-                %{--</g:form>--}%
-            </div>
-            <div class="modal-footer">
-                <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-dismiss="modal"
-                >
-                    Close
-                </button>
-                <button  id="createTopicSubmit" class="btn btn-primary"  data-dismiss="modal" >Create Topic</button>
-
-                %{--<button type="submit" id="createTopicSubmit" class="btn btn-primary" onclick="document.getElementById('createTopicFormSubmit').click()" >Create Topic</button>--}%
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-%{--//////////////////////////////Share Link Modal//////////////////////////////////////////////////////////////--}%
-<g:if test="${session.getAttribute('user') != null}">
-    <div
-            class="modal fade"
-            id="addTopicLink"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-    >
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h4 class="modal-title text-white" id="shareLinkModalLable">
-                        Share A Link
-                    </h4>
-                    <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                    >
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <g:form   controller="dashboard"   action="createShareLink"  method="get">
-                        <div class="form-group">
-                            <label for="linkUrl">Link</label>
-                            <input
-                                    type="url"
-                                    class="form-control"
-                                    name="url"
-                                    id="linkUrl"
-                                    placeholder="Full Link Address"
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="description"></label>
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    name="description"
-                                    id="description"
-                                    placeholder="Provide Some Description"
-                            />
-
-                        </div>
-                        <div class="form-group">
-                            <label for="topicSelect"> Topic</label>
-                            <select
-                                    class="form-control"
-                                    name="topic"
-                                    id="topicSelect"
-                            >
-
-                                <g:each in="${session.user.subscriptions}" var="sub" >
-                                    <option value="${sub.topic.id}">${sub.topic.topicName}</option>
-                                </g:each>
-
-                            </select>
-                        </div>
-
-                        <button type="submit" id="shareLinkSubmitButton"  class="invisible"   onclick="ExistingLogic()" > </button>
-                    </g:form>
-                </div>
-                <div class="modal-footer">
-                    <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal"
-                    >
-                        Close
-                    </button>
-                    <button type="submit" id="shareLinkSubmit" class="btn btn-primary" onclick="document.getElementById('shareLinkSubmitButton').click()" >Share Link</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</g:if>
-
-
-
-%{--/////////////////////////////////////UpdoadDocumentModal///////////////////////////////////////////////--}%
-
-<g:if test="${session.getAttribute('user') != null}">
-    <div
-            class="modal fade"
-            id="uploadDocument"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-    >
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h4 class="modal-title text-white" id="uploadDocumentHeading">
-                        Share Document
-                    </h4>
-                    <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                    >
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <g:form   controller="dashboard"  action="shareDocument"  enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="fileUpload">Document</label>
-                            <input
-                                    type="file"
-                                    class="form-control"
-                                    name="document"
-                                    id="fileUpload"
-                                    placeholder="Upload a File"
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="documentDescription"></label>
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    name="documentDescription"
-                                    id="documentDescription"
-                                    placeholder="Provide Some Description"
-                            />
-
-                        </div>
-                        <div class="form-group">
-                            <label for="addToTopic"> Topic</label>
-                            <select
-                                    class="form-control"
-                                    name="topic"
-                                    id="addToTopic"
-                            >
-
-                                <g:each in="${session.user.subscriptions}" var="sub" >
-                                    <option value="${sub.topic.id}">${sub.topic.topicName}</option>
-                                </g:each>
-
-                            </select>
-                        </div>
-
-                        <button type="submit" id="uploadDocumentFormButton"  class="invisible"   onclick="ExistingLogic()" > </button>
-                    </g:form>
-                </div>
-                <div class="modal-footer">
-                    <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal"
-                    >
-                        Close
-                    </button>
-                    <button type="submit" id="uploadDocumentExternalButton" class="btn btn-primary" onclick="document.getElementById('uploadDocumentFormButton').click()" >Share</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</g:if>
-
-
-%{--///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--}%
 
 <div class="container-fluid">
 
     <g:if test="${flash.message}">
-        <h5>${flash.message}</h5>
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            <strong>${flash.message}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
     </g:if>
+    <g:if test="${flash.inviteMessage}">
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            <strong>${flash.inviteMessage}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </g:if>
+
+
 
     <div class="row d-flex justify-content-around">
         <div class="col-4">
-            <div class="mt-5">
-                <div class="card p-3">
+            <div class="mt-5" >
+                <div class="card p-3" id="userprofile">
                     <div class="d-flex align-items-center">
                         <div class="image">
                             %{--<img--}%
@@ -444,18 +108,18 @@
                     ">
                                 <div class="d-flex flex-column">
                                     <span class="articles">Subscriptions</span>
-                                    <span class="number">38</span>
+                                    <span class="number">${(session.getAttribute('user') as User).subscriptions.size()}</span>
                                 </div>
 
                                 <div class="d-flex flex-column">
                                     <span class="articles">Topics</span>
-                                    <span class="number">980</span>
+                                    <span class="number">${(session.getAttribute('user') as User).topics.size()}</span>
                                 </div>
 
-                                <div class="d-flex flex-column">
-                                    <span class="articles">Rating</span>
-                                    <span class="number">8.9</span>
-                                </div>
+                                %{--<div class="d-flex flex-column">--}%
+                                    %{--<span class="articles">Rating</span>--}%
+                                    %{--<span class="number">8.9</span>--}%
+                                %{--</div>--}%
                             </div>
 
                             <div class="button mt-2 d-flex flex-row align-items-center">
@@ -482,7 +146,7 @@
                   justify-content-xl-around
                 ">
                         <h3>Subscriptions</h3>
-                        <a href="wwwwerwe" class="btn btn-danger">View All</a>
+                        %{--<a href="wwwwerwe" class="btn btn-danger">View All</a>--}%
                     </li>
                     <li class="list-group-item"></li>
                     <g:each in="${ (linksharing.Subscription.findAllByUser(session.getAttribute('user') as linksharing.User)).sort{it.dateCreated}.reverse()}" var="sub" id="subb">
@@ -586,8 +250,7 @@
                                                 <button class="btn btn-link" onclick="deleteTopic(${sub.topic.id})">Delete</button>
                                                 <button class="btn btn-link" onclick="editTopic(${sub.topic.id})">Edit</button>
                                                </g:if>
-                                                <a href="#">Send Invitation</a>
-
+                                                %{--<a href="#">Send Invitation</a>--}%
                                             </div>
                                         </div>
                                     </div>
@@ -696,7 +359,7 @@
                                                         </div>
 
 
-                                                    <a href="#">Send Invitation</a>
+                                                    %{--<a href="#">Send Invitation</a>--}%
                                                 </g:if>
                                                 <g:if test="${tp.createdBy.id.equals((session.getAttribute('user')as User).id)}">
                                                         <div class="form-group">
@@ -713,7 +376,7 @@
                                                             </select>
                                                         </div>
                                                 </g:if>
-                                                <a href="#">Delete</a>
+
                                                 <a href="#">Edit</a>
                                             </div>
                                         </div>
@@ -726,8 +389,8 @@
             </div>
         </div>
 
-        <div class="col-6 mt-5">
-            <ul class="list-group">
+        <div class="col-6 mt-5" id="">
+            <ul class="list-group" id="inbox">
                 <li class="list-group-item active">
                     <h3>Inbox</h3>
                 </li>
@@ -794,6 +457,78 @@
 
 
 %{--Modals--}%
+
+<g:if test="${session.getAttribute('user') != null}">
+    <div
+            class="modal fade"
+            id="sendInviteModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title text-white" id="invite-heading">
+                        Send Invite
+                    </h4>
+                    <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <g:form   controller="topic"  action="sendInvite"  >
+                        <div class="form-group">
+                            <label for="invite-email">Enter Email</label>
+                            <input
+                                    type="email"
+                                    class="form-control"
+                                    name="email"
+                                    id="invite-email"
+                                    placeholder="Email should Contain A valid Domain And '@'"
+                            />
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="invite-topic"> Topic</label>
+                            <select
+                                    class="form-control"
+                                    name="topicId"
+                                    id="invite-topic"
+                            >
+
+                                <g:each in="${session.user.subscriptions}" var="sub" >
+                                    <option value="${sub.topic.id}">${sub.topic.topicName}</option>
+                                </g:each>
+
+                            </select>
+                        </div>
+
+                        <button type="submit" id="send-invite-button"  class="invisible"   onclick="ExistingLogic()" > </button>
+                    </g:form>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="submit" id="send-invite-external-button" class="btn btn-primary" onclick="document.getElementById('send-invite-button').click()" >Send Invite</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</g:if>
 
 
 %{-->>>>>>>>>>>>>>>>>>>>>>>>>>>>Create Topic Modal<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<--}%

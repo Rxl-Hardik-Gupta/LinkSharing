@@ -75,10 +75,7 @@
                         "
                                             >
 
-                                                <a href="#">Download</a>
-                                                <a href="#">View Full Site</a>
-                                                <a href="#">Mark as Read</a>
-                                                <a href="#">View Post</a>
+                                                <g:link controller="post" action="index" params="[postId:post.id]" >View Post</g:link>
                                             </div>
                                         </div>
                                     </div>
@@ -94,7 +91,7 @@
               class="list-group-item active p-0 d-flex justify-content-between"
             > -->
                 <h3 class="list-group-item active d-flex justify-content-between">
-                    Trending Posts
+                    Top Posts
                 </h3>
 
                 <div class="dropdown m-0 p-0 pt-4 pr-3">
@@ -116,113 +113,56 @@
                     </div>
                 </div>
                 <!-- </li> -->
-                <li class="list-group-item">
-                    <div>
-                        <div class="card p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="image img-thumbnail">
-                                    <img
-                                            src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                            class="rounded"
-                                            width="140"/>
-                                </div>
+                <g:each in="${latestResources}" var="post">
 
-                                <div class="ml-3 w-100">
-                                    <h4 class="mb-0 mt-0">Some User</h4>
-                                    <span>Job Title</span>
+                %{--createdBy--}%
+                    <li class="list-group-item">
+                        <div>
+                            <div class="card p-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="image img-thumbnail">
+                                        <asset:image width="300" src="./ProfilePhoto${post.createdBy.photoPath}"  class="rounded img-thumbnail" alt="Avatar"/>
 
-                                    <div
-                                            class="
+                                    </div>
+                                    <div class="ml-3 w-100">
+                                        <h4 class="mb-0 mt-0">${post.createdBy.firstName + " " + post.createdBy.lastName}</h4>
+                                        <span>@ ${post.createdBy.userName}</span>
+                                        <div
+                                                class="
                           p-2
                           mt-2
                           d-flex
                           justify-content-between
                           rounded
                           stats
-                        ">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing
-                                            elit. Nesciunt eum quaerat distinctio neque quae
-                                            expedita minus maiores fugit! Vero sed eum mollitia
-                                            fugiat nisi aspernatur illum, ipsa reprehenderit
-                                            facilis deleniti?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <div class="card p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="image img-thumbnail">
-                                    <img
-                                            src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                            class="rounded"
-                                            width="140"/>
-                                </div>
-
-                                <div class="ml-3 w-100">
-                                    <h4 class="mb-0 mt-0">Some User</h4>
-                                    <span>Job Title</span>
-
-                                    <div
-                                            class="
+                        "
+                                        >
+                                            <p>
+                                                ${post.description}
+                                            </p>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div
+                                                    class="
+                          Options
                           p-2
-                          mt-2
+                          mt-1
                           d-flex
                           justify-content-between
-                          rounded
-                          stats
-                        ">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                                            elit. Voluptate libero vero pariatur eum est animi.
-                                            Dignissimos maxime sint et at.
-                                        </p>
+                          align-items-center
+                          w-100
+                        "
+                                            >
+
+                                                <g:link controller="post" action="index" params="[postId:post.id]" >View Post</g:link>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div>
-                        <div class="card p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="image img-thumbnail">
-                                    <img
-                                            src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                            class="rounded"
-                                            width="140"/>
-                                </div>
-
-                                <div class="ml-3 w-100">
-                                    <h4 class="mb-0 mt-0">Some User</h4>
-                                    <span>Job Title</span>
-
-                                    <div
-                                            class="
-                          p-2
-                          mt-2
-                          d-flex
-                          justify-content-between
-                          rounded
-                          stats
-                        ">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur, adipisicing
-                                            elit. Voluptate libero vero pariatur eum est animi.
-                                            Dignissimos maxime sint et at.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                </g:each>
             </ul>
         </div>
 

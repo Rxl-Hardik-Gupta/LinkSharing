@@ -42,7 +42,15 @@ class TopicController {
 //        TopicService.deleteTopic(request,params) ;
         Topic topic = Topic.get(params.topicId as Long) ;
         User user = session.getAttribute('user') as User;
+        User temp = User.get(user.id) ;
+        temp.removeFromTopics(topic) ;
+        topic.subscribers.collect().each {topic.removeFromSubscribers(it)} ;
+        topic.save(flush:true) ;
+        topic.resources.collect().each {topic.removeFromResources(it)} ;
+        topic.save(flush:true) ;
+        temp.save(flush:true) ;
         topic.delete(flush:true) ;
+        session.setAttribute('user', temp) ;
         redirect(controller: 'dashboard')
 
     }
@@ -76,6 +84,33 @@ class TopicController {
         sub.save(flush: true) ;
         redirect(controller:'dashboard');
     }
+
+    @Override
+    String toString() {
+        return super.toString()
+    }
+
+    def sendInvite() {
+
+        User user = User.findByEmail(params.email as String) ;
+        if(!user) flash.inviteMessage = "The Email does not Correspond to Any User" ;
+        else{
+            Topic topic = Topic.get(params.topicId as long) ;
+            String inviteLink = "http://localhost:4001" + (createLink(controller: 'subscription', action: 'acceptInvite', params: [id: topic.id, userId: (user.id).toString() ]) as String);
+            flash.inviteMessage = "Invitation Sent" ;
+            sendMail {
+                to user.email
+                subject "Invitation"
+                text inviteLink
+            }
+
+        }
+
+
+
+        redirect(controller:'dashboard') ;
+    }
+
 
 
 }
