@@ -31,29 +31,88 @@ class TopicController {
     def createTopic (){
         println "Controller is Called"
         Topic topic = TopicService.createTopic(request, params) ;
-        return topic;
+//        return topic;
 //        if(topic != null) redirect(controller:"index", action:"dashboard") ;
 ////        else render(view: '../index');
 //
 ////        else redirect(controller: 'dashboard', action:"index" ) ;
 //        render(view:'../Dashboard/index')
+        redirect(controller: 'dashboard') ;
     }
-    def deleteTopic() {
-//        TopicService.deleteTopic(request,params) ;
-        Topic topic = Topic.get(params.topicId as Long) ;
-        User user = session.getAttribute('user') as User;
-        User temp = User.get(user.id) ;
-        temp.removeFromTopics(topic) ;
-        topic.subscribers.collect().each {topic.removeFromSubscribers(it)} ;
-        topic.save(flush:true) ;
-        topic.resources.collect().each {topic.removeFromResources(it)} ;
-        topic.save(flush:true) ;
-        temp.save(flush:true) ;
-        topic.delete(flush:true) ;
-        session.setAttribute('user', temp) ;
-        redirect(controller: 'dashboard')
 
+    def deleteTopic(){
+        println "Delete topic called"
+        Topic t = Topic.get(params.topicId as long)
+
+        println t.id + "Topic IDd"
+        def r = Resource.findAllByTopic(t)
+        def subscriptions = Subscription.findAllByTopic(t)
+        subscriptions.each {
+            User usr = it.user ;
+            usr.removeFromSubscriptions(it) ;
+            usr.save()
+        }
+        User user = t.createdBy;
+        println "User++++++++++" + user;
+        user.removeFromTopics(t)
+        user.save()
+
+//        r.each {
+//            def rItem = ReadingItem.findAllByResource(it)
+//            rItem.each {t1 ->
+//                if(t1 != null){
+//                    t1.delete(flush: true)
+//                }
+//            }
+////            def rRating = ResourceRating.findAllByResource(it)
+////            rRating.each {r1->
+////                if(r1!=null){
+////                    r1.delete(flush:true)
+////                }
+////            }
+////            if(LinkResource.findByResource(it)!=null){
+////                def l = LinkResource.findByResource(it)
+////                l.delete(flush:true)
+////                it.delete(flush:true)
+////            }else if (DocumentResource.findByResource(it)!=null){
+////                def d = DocumentResource.findByResource(it)
+////                d.delete(flush:true)
+////                it.delete(flush:true)
+////            }
+//        }
+//        Subscription.deleteAll(ri)
+//        ri.each {
+//            it.delete(flush:true)
+//        }
+        t.delete(flush:true)
+        redirect(controller: "user", action: "userPage")
     }
+
+
+
+//    def deleteTopic() {
+////        TopicService.deleteTopic(request,params) ;
+//        Topic topic = Topic.get(params.topicId as Long) ;
+//        User user = session.getAttribute('user') as User;
+//        User temp = User.get(user.id) ;
+//        temp.removeFromTopics(topic) ;
+//        List<Subscription> subs = Subscription.findAllByTopic(topic) ;
+//        List<Resource> res = Resource.findAllByTopic(topic) ;
+//        List<ResourceRating> ratings = new ArrayList<>() ;
+//        for(Resource r : res) {
+//            ratings.addAll(ResourceRating.findAllByResource(r)) ;
+//        }
+//        subs.collect().each {if(it) it.delete(flush:true)} ;
+//        res.collect().each {if(it) it.delete(flush:true)} ;
+//        ratings.collect().each {if(it) it.delete(flush:true)};
+//        topic.resources.clear() ;
+//        topic.subscribers.clear()
+//        temp.save(flush:true) ;
+//        topic.delete(flush:true) ;
+//        session.setAttribute('user', temp) ;
+//        redirect(controller: 'dashboard')
+//
+//    }
     def changeVisibility() {
         Topic topic = Topic.get(params.topicId as Long) ;
         VisibilityEnum newVisibility = params.newVisibility as VisibilityEnum ;

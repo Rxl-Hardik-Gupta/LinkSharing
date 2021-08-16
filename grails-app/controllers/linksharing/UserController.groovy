@@ -10,9 +10,17 @@ class UserController {
 
 
     def showUsers(){
-        List<User> users = User.all;
 
-        render(view:'show', model: [users:users]);
+        if(!session || session.getAttribute('user') == null) redirect(controller:'index')
+        else if(!(session.getAttribute('user') as User).admin) {
+            flash.notAdmin = "You Are Not an Admin" ;
+            redirect(controller:'dashboard') ;
+        }
+        else{
+            List<User> users = User.all;
+
+            render(view:'show', model: [users:users]);
+        }
 
     }
     def changeValidity() {

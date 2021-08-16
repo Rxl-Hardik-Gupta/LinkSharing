@@ -58,31 +58,7 @@
 <div class="container-fluid">
 
 
-    <g:if test="${flash.notAdmin}">
-        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-            <strong>${flash.notAdmin}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </g:if>
 
-    <g:if test="${flash.message}">
-        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-            <strong>${flash.message}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </g:if>
-    <g:if test="${flash.inviteMessage}">
-        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-            <strong>${flash.inviteMessage}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </g:if>
 
 
 
@@ -92,18 +68,13 @@
                 <div class="card p-3" id="userprofile">
                     <div class="d-flex align-items-center">
                         <div class="image">
-                            %{--<img--}%
-                            %{--src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"--}%
-                            %{--class="rounded img-thumbnail"--}%
-                            %{--width="300"--}%
-                            %{--/>--}%
-                            <g:link controller="userProfile" action="index" params="[userId:session.user.id]"><asset:image width="300" src="./ProfilePhoto${session ? session.user?.photoPath : ''}"
-                                                 class="rounded img-thumbnail" alt="Avatar"/></g:link>
+                            <asset:image width="300" src="./ProfilePhoto${user?.photoPath}"
+                                         class="rounded img-thumbnail" alt="Avatar"/>
                         </div>
 
                         <div class="ml-3 w-100">
-                            <h5>${session.user.firstName +" " +session.user.lastName}</h5>
-                            <g:link controller="userProfile" action="index" params="[userId:session.user.id]">@${session.user.userName}</g:link>
+                            <h4 class="mb-0 mt-0">${user.firstName + " " + user.lastName}</h4>
+                            <span>@ ${user.userName}</span>
 
                             <div
                                     class="
@@ -118,27 +89,19 @@
                     ">
                                 <div class="d-flex flex-column">
                                     <span class="articles">Subscriptions</span>
-                                   <g:link controller="userProfile" action="index" class="text-white" params="[userId:session.user.id]"> <span class="number">${(session.getAttribute('user') as User).subscriptions.size()}</span></g:link>
+                                    <span class="number">${(subs.size())}</span>
                                 </div>
 
                                 <div class="d-flex flex-column">
                                     <span class="articles">Topics</span>
-                                    <g:link controller="userProfile" action="index" class="text-white" params="[userId:session.user.id]">${(session.getAttribute('user') as User).topics.size()}</g:link>
+                                    <span class="number">${topics.size()}</span>
                                 </div>
 
-                                %{--<div class="d-flex flex-column">--}%
-                                    %{--<span class="articles">Rating</span>--}%
-                                    %{--<span class="number">8.9</span>--}%
-                                %{--</div>--}%
+
                             </div>
 
                             <div class="button mt-2 d-flex flex-row align-items-center">
-                                %{--<button class="btn btn-sm btn-outline-primary w-100">--}%
-                                %{--Chat--}%
-                                %{--</button>--}%
-                                %{--<button class="btn btn-sm btn-primary w-100 ml-2">--}%
-                                %{--Follow--}%
-                                %{--</button>--}%
+
                             </div>
                         </div>
                     </div>
@@ -159,32 +122,32 @@
                         %{--<a href="wwwwerwe" class="btn btn-danger">View All</a>--}%
                     </li>
                     <li class="list-group-item"></li>
-                    <g:each in="${ (linksharing.Subscription.findAllByUser(session.getAttribute('user') as linksharing.User)).sort{it.dateCreated}.reverse()}" var="sub" id="subb">
-                            <li class="list-group-item">
-                                <div class="mt-2">
-                                    <div class="card p-3">
-                                        <div class="d-flex">
-                                            <div class="image img-responsive">
-                                                <asset:image
+                    <g:each in="${subs}" var="sub" id="subb">
+                        <li class="list-group-item">
+                            <div class="mt-2">
+                                <div class="card p-3">
+                                    <div class="d-flex">
+                                        <div class="image img-responsive">
+                                            <asset:image
 
-                                                        src="./ProfilePhoto${sub.topic.createdBy.photoPath}"
-                                                        class="rounded img-thumbnail"
-                                                        width="140"
-                                                        alt="Avatar"/>
-                                            </div>
+                                                    src="./ProfilePhoto${sub.topic.createdBy.photoPath}"
+                                                    class="rounded img-thumbnail"
+                                                    width="140"
+                                                    alt="Avatar"/>
+                                        </div>
 
-                                            <div class="ml-3 w-75">
-                                                <!-- <h4 class="mb-0 mt-0">Some User</h4> -->
-                                                <g:link controller="topic" action="openTopic"
-                                                        params="[topicId: sub.topic.id]">${sub.topic.topicName}</g:link>
+                                        <div class="ml-3 w-75">
+                                            <!-- <h4 class="mb-0 mt-0">Some User</h4> -->
+                                            <g:link controller="topic" action="openTopic"
+                                                    params="[topicId: sub.topic.id]">${sub.topic.topicName}</g:link>
 
-                                                %{--<a href="" class="d-block">${sub.topic.topicName}</a>--}%
-                                                <span class="d-block">@${sub.user.userName}</span>
-                                                %{--<a href="#">Unsubscribe</a>--}%
+                                            %{--<a href="" class="d-block">${sub.topic.topicName}</a>--}%
+                                            <span class="d-block">@${sub.user.userName}</span>
+                                            %{--<a href="#">Unsubscribe</a>--}%
 
-                                                <button class="btn btn-link" onclick="unsubscribe(${sub.id})">Unsubscribe</button>
-                                                <div
-                                                        class="
+                                            %{--<button class="btn btn-link" onclick="unsubscribe(${sub.id})">Unsubscribe</button>--}%
+                                            <div
+                                                    class="
                             p-2
                             mt-2
                             bg-secondary
@@ -194,22 +157,22 @@
                             text-white
                             stats
                           ">
-                                                    <div class="d-flex flex-column">
-                                                        <span class="articles">Subscriptions</span>
-                                                        <span class="number">${sub.topic.subscribers.size()}</span>
-                                                    </div>
+                                                <div class="d-flex flex-column">
+                                                    <span class="articles">Subscriptions</span>
+                                                    <span class="number">${sub.topic.subscribers.size()}</span>
+                                                </div>
 
-                                                    <div class="d-flex flex-column">
-                                                        <span class="articles">Post</span>
-                                                        <span class="number">${sub.topic.resources.size()}</span>
-                                                    </div>
+                                                <div class="d-flex flex-column">
+                                                    <span class="articles">Post</span>
+                                                    <span class="number">${sub.topic.resources.size()}</span>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="d-flex">
-                                            <div
-                                                    class="
+                                    <div class="d-flex">
+                                        <div
+                                                class="
                           Options
                           p-2
                           mt-1
@@ -218,6 +181,7 @@
                           align-items-center
                           w-100
                         ">
+                                            <g:if test="${session && (session.getAttribute('user') as User) && (session.getAttribute('user') as User).id == user.id}">
                                                 <form method="get" action="">
                                                     <div class="form-group">
                                                         <select class="custom-select" onchange="changeSeriousness(${sub.id}, this.value)" name="seriousness">
@@ -240,32 +204,15 @@
                                                         </select>
                                                     </div>
                                                 </form>
+                                            </g:if>
 
 
-                                               <g:if test="${sub.user.id.equals(sub.topic.createdBy.id)}">
-                                                       <div class="form-group">
-                                                          <select class="custom-select"  onchange="changeVisibility(${sub.topic.id}, this.value)"  name="visibility">
-                                                           <g:if test="${(sub.topic.visibility as String).equals("PRIVATE")}">
 
-                                                                   <option value="PRIVATE" selected>Private</option>
-                                                                   <option value="PUBLIC">Public</option>
-                                                           </g:if>
-                                                           <g:else>
-                                                                   <option value="PRIVATE" >Private</option>
-                                                                   <option value="PUBLIC" selected >Public</option>
-                                                           </g:else>
-                                                          </select>
-
-                                                       </div>
-                                                <button class="btn btn-link" onclick="deleteTopic(${sub.topic.id})">Delete</button>
-                                                <button class="btn btn-link" onclick="editTopic(${sub.topic.id})">Edit</button>
-                                               </g:if>
-                                                %{--<a href="#">Send Invitation</a>--}%
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </li>
+                            </div>
+                        </li>
                     </g:each>
                 </ul>
             </div>
@@ -280,10 +227,10 @@
                   d-flex
                   justify-content-xl-around
                 ">
-                        <h3>Trending Topics</h3>
+                        <h3>Topics</h3>
                     </li>
                     <li class="list-group-item"></li>
-                    <g:each in="${session.getAttribute('trending') as List<linksharing.Topic>}" var="tp">
+                    <g:each in="${topics}" var="tp">
                         <div id="subs">
                             <li class="list-group-item">
                                 <div class="mt-2">
@@ -304,11 +251,13 @@
                                                         params="[topicId: tp.id]">${tp.topicName}</g:link>
 
                                                 <span class="d-block">@${tp.createdBy.userName}</span>
-                                                <g:if test="${(Subscription.findByTopicAndUser(tp as Topic, session.getAttribute('user') as User)) != null}">
+                                                <g:if test="${(session && session.getAttribute('user') as User != null) && (session.getAttribute('user') as User).id == user.id  && Subscription.findByTopicAndUser(tp as Topic, session.getAttribute('user') as User) != null}">
                                                     <button class="btn btn-link" onclick="unsubscribeTopic(${tp.id})">Unsubscribe</button>
                                                 </g:if>
                                                 <g:else>
-                                                    <button class="btn btn-link" onclick="subscribeTopic(${tp.id})">Subscribe</button>
+                                                    <g:if test="${session && session.user != null}">
+                                                        <button class="btn btn-link" onclick="subscribeTopic(${tp.id})">Subscribe</button>
+                                                    </g:if>
                                                 </g:else>
                                                 <div
                                                         class="
@@ -345,49 +294,34 @@
                           align-items-center
                           w-100
                         ">
-                                                <g:if test="${(Subscription.findByTopicAndUser(tp as Topic, session.getAttribute('user') as User)) != null}">
+                                                <g:if test="${session && session.user != null && user.id == session.user.id && Subscription.findByTopicAndUser(tp as Topic, session.getAttribute('user') as User) != null}">
                                                     <g:set var="subscription" value="${Subscription.findByTopicAndUser(tp as Topic, session.getAttribute('user') as User)}" />
-                                                        <div class="form-group">
-                                                            <select class="custom-select" onchange="changeSeriousness(${subscription.id}, this.value)" name="seriousness">
-                                                                <g:if test="${(subscription.seriousness as String).equals("VERY_SERIOUS")}">
-                                                                    <option  value="SERIOUS">Serious</option>
-                                                                    <option value="VERY_SERIOUS" selected>VerySerious</option>
-                                                                    <option value="CASUAL">Casual</option>
-                                                                </g:if>
-                                                                <g:if test="${(subscription.seriousness as String).equals("CASUAL")}">
-                                                                    <option  value="SERIOUS">Serious</option>
-                                                                    <option value="VERY_SERIOUS" >VerySerious</option>
-                                                                    <option value="CASUAL" selected >Casual</option>
-                                                                </g:if>
-                                                                <g:if test="${(subscription.seriousness as String).equals("SERIOUS")}">
-                                                                    <option  value="SERIOUS" selected>Serious</option>
-                                                                    <option value="VERY_SERIOUS" >VerySerious</option>
-                                                                    <option value="CASUAL">Casual</option>
-                                                                </g:if>
+                                                    <div class="form-group">
+                                                        <select class="custom-select" onchange="changeSeriousness(${subscription.id}, this.value)" name="seriousness">
+                                                            <g:if test="${(subscription.seriousness as String).equals("VERY_SERIOUS")}">
+                                                                <option  value="SERIOUS">Serious</option>
+                                                                <option value="VERY_SERIOUS" selected>VerySerious</option>
+                                                                <option value="CASUAL">Casual</option>
+                                                            </g:if>
+                                                            <g:if test="${(subscription.seriousness as String).equals("CASUAL")}">
+                                                                <option  value="SERIOUS">Serious</option>
+                                                                <option value="VERY_SERIOUS" >VerySerious</option>
+                                                                <option value="CASUAL" selected >Casual</option>
+                                                            </g:if>
+                                                            <g:if test="${(subscription.seriousness as String).equals("SERIOUS")}">
+                                                                <option  value="SERIOUS" selected>Serious</option>
+                                                                <option value="VERY_SERIOUS" >VerySerious</option>
+                                                                <option value="CASUAL">Casual</option>
+                                                            </g:if>
 
-                                                            </select>
-                                                        </div>
+                                                        </select>
+                                                    </div>
 
 
-                                                    %{--<a href="#">Send Invitation</a>--}%
-                                                </g:if>
-                                                <g:if test="${tp.createdBy.id.equals((session.getAttribute('user')as User).id)}">
-                                                        <div class="form-group">
-                                                            <select class="custom-select"  onchange="changeVisibility(${tp.id}, this.value)"  name="visibility">
-                                                                <g:if test="${(tp.visibility as String).equals("PRIVATE")}">
-
-                                                                    <option value="PRIVATE" selected>Private</option>
-                                                                    <option value="PUBLIC">Public</option>
-                                                                </g:if>
-                                                                <g:else>
-                                                                    <option value="PRIVATE" >Private</option>
-                                                                    <option value="PUBLIC" selected >Public</option>
-                                                                </g:else>
-                                                            </select>
-                                                        </div>
+                                                <a href="#">Send Invitation</a>
                                                 </g:if>
 
-                                                <a href="#">Edit</a>
+                                                %{--<a href="#">Edit</a>--}%
                                             </div>
                                         </div>
                                     </div>
@@ -402,20 +336,20 @@
         <div class="col-6 mt-5" id="">
             <ul class="list-group" id="inbox">
                 <li class="list-group-item active">
-                    <h3>Inbox</h3>
+                    <h3>Posts</h3>
                 </li>
-                <g:each in="${session.getAttribute('inbox') as List<linksharing.ReadingItem>}" var="rd">
+                <g:each in="${resources}" var="rs">
                     <li class="list-group-item">
                         <div>
                             <div class="card p-3">
                                 <div class="d-flex align-items-center">
                                     <div class="image img-thumbnail">
-                                        <asset:image width="300" src="./ProfilePhoto${rd.resource.createdBy.photoPath}"  class="rounded img-thumbnail" alt="Avatar"/>
+                                        <asset:image width="300" src="./ProfilePhoto${rs.createdBy.photoPath}"  class="rounded img-thumbnail" alt="Avatar"/>
 
                                     </div>
                                     <div class="ml-3 w-100">
-                                        <h4 class="mb-0 mt-0">${rd.resource.createdBy.firstName + " " + rd.resource.createdBy.lastName}</h4>
-                                        <span>@ ${rd.resource.createdBy.userName}</span>
+                                        <h4 class="mb-0 mt-0">${rs.createdBy.firstName + " " + rs.createdBy.lastName}</h4>
+                                        <span>@ ${rs.createdBy.userName}</span>
                                         <div
                                                 class="
                           p-2
@@ -427,7 +361,7 @@
                         "
                                         >
                                             <p>
-                                                ${rd.resource.description}
+                                                ${rs.description}
                                             </p>
                                         </div>
                                         <div class="d-flex">
@@ -444,14 +378,14 @@
                                             >
 
 
-                                                <g:if test="${rd.resource.class == LinkResource}">
-                                                    <a href="${rd.resource.url}">View Full Site</a>
+                                                <g:if test="${rs.class == LinkResource}">
+                                                    <a href="${rs.url}">View Full Site</a>
                                                 </g:if>
                                                 <g:else>
-                                                    <g:link controller="resource" action="download" params="[resId:rd.resource.id]" >Download</g:link>
+                                                    <g:link controller="resource" action="download" params="[resId:rs.id]" >Download</g:link>
                                                 </g:else>
-                                                <button  onclick="markAsRead(${rd.id})"  class="btn btn-link">Mark As Read</button>
-                                                <g:link controller="post" action="index" params="[postId:rd.resource.id]" >View Post</g:link>
+                                                %{--<button  onclick="markAsRead(${rd.id})"  class="btn btn-link">Mark As Read</button>--}%
+                                                <g:link controller="post" action="index" params="[postId:rs.id]" >View Post</g:link>
                                             </div>
                                         </div>
                                     </div>
@@ -626,9 +560,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"> </script>
 %{--<script--}%
-        %{--src="https://code.jquery.com/jquery-3.2.1.slim.min.js"--}%
-        %{--integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"--}%
-        %{--crossorigin="anonymous"--}%
+%{--src="https://code.jquery.com/jquery-3.2.1.slim.min.js"--}%
+%{--integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"--}%
+%{--crossorigin="anonymous"--}%
 %{--></script>--}%
 <script
         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"

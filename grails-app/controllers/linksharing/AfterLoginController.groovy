@@ -23,6 +23,7 @@ class AfterLoginController {
             HttpSession current = request.getSession();
             if (current != null) try {
                 current.invalidate();
+                current.getAttribute('user') == null ;
 
             } catch (IllegalStateException ignored) {
                 // ok: session is already invalidated

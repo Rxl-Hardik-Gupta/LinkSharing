@@ -1,3 +1,4 @@
+<%@ page import="linksharing.User; linksharing.Topic; linksharing.ReadingItem; linksharing.LinkResource; linksharing.DocumentResource" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -42,12 +43,7 @@
                                     </div>
 
                                 </div>
-                                <div class="button mt-2 d-flex flex-row align-items-center">
 
-                                    <button class="btn btn-sm btn-primary w-100 ml-2">
-                                        Follow
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -113,14 +109,12 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-6 mt-5">
+            <div class="col-6 mt-5" id="topic-posts">
                 <ul class="list-group">
                     <li class="list-group-item active">
                         <h3>Posts</h3>
                     </li>
-                    <g:each in="${session.topic.resources}" var="post">
-
-                        %{--createdBy--}%
+                    <g:each in="${(session.getAttribute('topic') as Topic).resources}" var="post">
                         <li class="list-group-item">
                             <div>
                                 <div class="card p-3">
@@ -158,11 +152,17 @@
                           w-100
                         "
                                                 >
-
-                                                    <a href="#">Download</a>
-                                                    <a href="#">View Full Site</a>
-                                                    <a href="#">Mark as Read</a>
-                                                    <a href="#">View Post</a>
+                                                    <g:set var="rd" value="${ReadingItem.findByResource(post)}" />
+                                                    <g:if test="${post.class == LinkResource}">
+                                                        <a href="${post.url}">View Full Site</a>
+                                                    </g:if>
+                                                    <g:else>
+                                                        <g:link controller="resource" action="download" params="[resId:post.id]" >Download</g:link>
+                                                    </g:else>
+                                                    <g:if test="${!rd.isRead}">
+                                                        <button onclick="markAsRead(${rd.id})" class="btn btn-link">Mark As Read</button>
+                                                    </g:if>
+                                                    <g:link controller="post" action="index" params="[postId:rd.resource.id]" >View Post</g:link>
                                                 </div>
                                             </div>
                                         </div>

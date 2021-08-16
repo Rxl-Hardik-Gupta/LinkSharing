@@ -24,6 +24,7 @@ class User {
         email(unique: true);
         userName(unique: true);
         firstName(blank: false, nullable: false);
+        lastName(blank:true, nullable:true) ;
         password(nullable: false, blank: false);
         admin nullable:true, bank: true;
         photoPath nullable: true, blank: true;

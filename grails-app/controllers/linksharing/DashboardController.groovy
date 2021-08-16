@@ -7,9 +7,12 @@ class DashboardController {
 
 
     def index() {
-        DashboardService.fetchInbox(request);
-        DashboardService.fetchTrending(request) ;
-        render(view: '../Dashboard/index');
+        if(!session || session.getAttribute('user') == null) redirect(controller:'index') ;
+        else{
+            DashboardService.fetchInbox(request);
+            DashboardService.fetchTrending(request) ;
+            render(view: '../Dashboard/index');
+        }
     }
 
     def createShareLink() {

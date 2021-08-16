@@ -172,6 +172,8 @@ function markAsRead(id) {
         success: function() {
             $('#inbox').load(' #inbox') ;
             $('#trending-topics').load(' #trending-topics');
+            $('#topic-posts').load(' #topic-posts');
+
         },
         error:function(e) {
             alert("Alert OF error") ;
@@ -223,6 +225,7 @@ function markAsRead(id) {
 // }
 
 function rating(id){
+    console.log("called rating with score:"+ id);
     var Id = "#star" + id;
     $(Id).prop("checked", true);
     console.log("called rating with score:"+ id);
@@ -241,7 +244,7 @@ function rate(score, resourceId) {
         success:function (response) {
             console.log("Inside rating success");
             $(id).addClass("checked");
-            location.reload() ;
+            // location.reload() ;
         },
         error:function(e) {
             alert("Alert OF error") ;

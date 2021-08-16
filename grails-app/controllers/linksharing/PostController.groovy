@@ -6,7 +6,10 @@ class PostController {
         println(params.postId + " This is params")
         Resource rs = Resource.get(params.postId as Long) ;
         println rs ;
-        render(view: '../post/Post' , model: [res: rs]) ;
+        session.setAttribute('resourceInSession', rs) ;
+        HashSet<Topic> topics = Topic.list().toSet() ;
+        List<Topic> topic =  topics.sort {it.resources.size()}.reverse().toList() ;
+        render(view: '../post/Post' , model: [res: rs, topics:topic]) ;
     }
 
     def ratePost() {

@@ -38,17 +38,17 @@ class IndexService {
         String em = params.loginEmail ;
         String pswd = params.loginPassowrd;
         Map map = ['user' :null as User, 'message' : ""] ;
-        User u = User.findByEmail(em) ;
+        User u = User.findByEmailOrUserName(em, em) ;
         if(u == null) {
             map.message = "User Does not Exist" ;
-        }
+        }else if(!u.active) map.message = "User is Deactivated"
         else if(!u.password.equals(pswd))  {
             map.message = "Wrong Password" ;
 
-        }else{
+        }
+
+        else{
             map.user = u ;
-
-
         }
         return map;
 
@@ -57,24 +57,32 @@ class IndexService {
     Map createUser(HttpServletRequest request, GrailsParameterMap params) {
 
         MultipartFile uploadedFile = request.getFile('photoPath');
-        Map map = ['message': null as String, 'exception': null as String] ;
+        Map map = ['message': null as String, 'exception': null as String];
 
-        params.setProperty('active', true) ;
-        if(uploadedFile && !uploadedFile.empty){
+        params.setProperty('active', true);
+        if (uploadedFile && !uploadedFile.empty) {
             File photo = new File("/home/rxlogix/LinkSharing/grails-app/assets/images/ProfilePhoto/${params.userName}.png");
-            uploadedFile.transferTo(photo) ;
-            params.photoPath = "/${params.userName}.png" ;
-        }else params.photoPath = "" ;
-        try{
-            User u = new User(params) ;
-            u.save(flush: true, failOnError: true) ;
-            map.message = "User Registered Successfully" ;
-        }catch(Exception e) {
-            map.exception = e.toString();
-        }
+            uploadedFile.transferTo(photo);
+            params.photoPath = "/${params.userName}.png";
+        } else params.photoPath = "/ProflePhoto.jpg"
+//        try {
+            User u = new User(params);
+            u.admin = true;
+            u.validate() ;
+            if(u.errors.hasFieldErrors('userName')) {
+                map.exception = "A user with this username Already exists"
+            }else if(u.errors.hasFieldErrors('email')) {
+                map.exception = "A user with this email Already exists"
+            }
+            else{
+                u.save(flush: true, failOnError: true);
+                map.message = "User Registered Successfully";
+            }
+//        } catch{
+//
+//        }
         return map;
     }
-
 
 
 }

@@ -25,7 +25,7 @@ class Topic {
 
         createdBy fetch: 'join';
 
-        subscribers cascade: 'all-delete-orphan'
-        resources cascade: 'all-delete-orphan'
+//        subscribers cascade: 'all-delete-orphan'
+//        resources cascade: 'all-delete-orphan'
     }
 }

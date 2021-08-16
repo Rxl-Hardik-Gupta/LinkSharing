@@ -1,3 +1,4 @@
+<%@ page import="linksharing.User; linksharing.ResourceRating; linksharing.Resource" %>
 <!doctype html>
 <html lang="en" >
 <head>
@@ -46,6 +47,15 @@
 
 
     </script>
+    %{--<g:set var="usr" value="${session.getAttribute('user') as User}" />--}%
+    %{--<g:set var="rs" value="${session.getAttribute('resourceInSession') as Resource}" />--}%
+
+    %{--<g:if test="${usr && rs}">--}%
+        %{--<g:set var="ratingValue" value="${ResourceRating.findByResourceAndUser(rs, usr).score}" />--}%
+    %{--</g:if>--}%
+    %{--<g:else>--}%
+        %{--<g:set var="ratingValue" value="0" />--}%
+    %{--</g:else>--}%
     <asset:javascript  src="TopicCreation.js"  />
 
 
@@ -53,7 +63,11 @@
 
 </head>
 
-<body >
+<body onload="rating(${ResourceRating.findByResourceAndUser(session.getAttribute('resourceInSession') as Resource, session.getAttribute('user') as User)==null?0:ResourceRating.findByResourceAndUser(session.getAttribute('resourceInSession') as Resource, session.getAttribute('user') as User).score})">
+
+
+
+
 
 
 <nav class="navbar navbar-expand navbar-light bg-light sticky-top">
@@ -165,10 +179,12 @@
 
                         <i class="fa fa-user"></i> Profile</g:link>
                     <div class="dropdown-divider"></div>
-                    <g:link controller="user" action="showUsers"  class="dropdown-item">
+                    <g:if test="${(session.getAttribute('user')as User).admin}">
+                        <g:link controller="user" action="showUsers"  class="dropdown-item">
 
-                        <i class="fa fa-user"></i> Users</g:link>
-                    <div class="dropdown-divider"></div>
+                            <i class="fa fa-user"></i> Users</g:link>
+                        <div class="dropdown-divider"></div>
+                    </g:if>
                     <g:link controller="afterLogin" action="logout" class="dropdown-item">
 
                         <i class="material-icons">&#xE8AC;</i>
@@ -186,6 +202,11 @@
     </div>
 </nav>
  %{-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>...Modlas<<<<<<<<<<<<<<<<<<<,,,,,,,,,,,--}%
+
+ <g:if test="${session && session.getAttribute('user')}">
+     <h1>${(session.getAttribute('user')as User).firstName}</h1>
+ </g:if>
+
 <div
         class="modal fade"
         id="createTopicModal"

@@ -26,14 +26,20 @@ class DashboardService {
 
     }
     def fetchTrending(HttpServletRequest request) {
-        List<Topic>  topics = new ArrayList<>() ;
-        topics = Topic.list() ;
-        Collections.sort(topics,new Comparator<Topic>(){
-            @Override
-            public int compare( Topic t1,Topic  t2) {
-                return  t2.resources.size() - t1.resources.size() ;
-            }
-        });
+        HashSet<Topic> topics = Topic.list().toSet() ;
+        List<Topic> topic =  topics.sort {it.resources.size()}.reverse().toList() ;
+
+//        List<Topic>  topics = Topic.createCriteria().listDistinct {
+//            order('resources', 'desc') ;
+//        } ;
+//        Map map = [temp: topics] ;
+//        map.sort {it.value.size()} ;
+//        Collections.sort(topics,new Comparator<Topic>(){
+//            @Override
+//            public int compare( Topic t1,Topic  t2) {
+//                return  t2.resources.size() - t1.resources.size() ;
+//            }
+//        });
 
         request.session.setAttribute('trending', topics) ;
     }

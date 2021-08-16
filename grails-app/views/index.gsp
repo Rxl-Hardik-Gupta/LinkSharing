@@ -27,8 +27,35 @@
 
 <body>
 
+
+
 <div class="container-fluid mt-5">
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-11">
+            <g:if test="${flash.emailSuccess}">
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <strong>${flash.emailSuccess}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </g:if>
+            <g:if test="${flash.resetMessage}">
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <strong>${flash.resetMessage}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </g:if>
+        </div>
+    </div>
+
+
     <div class="row d-flex justify-content-around">
+
+
         <div class="col-7">
             <ul class="list-group">
                 <li class="list-group-item active">
@@ -42,12 +69,19 @@
                             <div class="card p-3">
                                 <div class="d-flex align-items-center">
                                     <div class="image img-thumbnail">
-                                        <asset:image width="300" src="./ProfilePhoto${post.createdBy.photoPath}"  class="rounded img-thumbnail" alt="Avatar"/>
+                                        <g:link controller="userProfile" action="index" params="[userId:post.createdBy.id]">
+                                            <asset:image width="300" src="./ProfilePhoto${post.createdBy.photoPath}"  class="rounded img-thumbnail" alt="Avatar"/>
+                                        </g:link>
+
 
                                     </div>
                                     <div class="ml-3 w-100">
                                         <h4 class="mb-0 mt-0">${post.createdBy.firstName + " " + post.createdBy.lastName}</h4>
-                                        <span>@ ${post.createdBy.userName}</span>
+
+                                        <g:link controller="userProfile" action="index" params="[userId:post.createdBy.id]">
+                                            <span>@ ${post.createdBy.userName}</span>
+                                        </g:link>
+
                                         <div
                                                 class="
                           p-2
@@ -94,24 +128,24 @@
                     Top Posts
                 </h3>
 
-                <div class="dropdown m-0 p-0 pt-4 pr-3">
-                    <button
-                            class="btn btn-danger dropdown-toggle"
-                            type="button"
-                            id="triggerId"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false">
-                        Select Period
-                    </button>
+                %{--<div class="dropdown m-0 p-0 pt-4 pr-3">--}%
+                    %{--<button--}%
+                            %{--class="btn btn-danger dropdown-toggle"--}%
+                            %{--type="button"--}%
+                            %{--id="triggerId"--}%
+                            %{--data-toggle="dropdown"--}%
+                            %{--aria-haspopup="true"--}%
+                            %{--aria-expanded="false">--}%
+                        %{--Select Period--}%
+                    %{--</button>--}%
 
-                    <div class="dropdown-menu" aria-labelledby="triggerId">
-                        <button class="dropdown-item" href="#">Action</button>
-                        <button class="dropdown-item disabled" href="#">
-                            Disabled action
-                        </button>
-                    </div>
-                </div>
+                    %{--<div class="dropdown-menu" aria-labelledby="triggerId">--}%
+                        %{--<button class="dropdown-item" href="#">Action</button>--}%
+                        %{--<button class="dropdown-item disabled" href="#">--}%
+                            %{--Disabled action--}%
+                        %{--</button>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
                 <!-- </li> -->
                 <g:each in="${latestResources}" var="post">
 
@@ -121,12 +155,16 @@
                             <div class="card p-3">
                                 <div class="d-flex align-items-center">
                                     <div class="image img-thumbnail">
-                                        <asset:image width="300" src="./ProfilePhoto${post.createdBy.photoPath}"  class="rounded img-thumbnail" alt="Avatar"/>
+                                        <g:link controller="userProfile" action="index" params="[userId:post.createdBy.id]">
+                                            <asset:image width="300" src="./ProfilePhoto${post.createdBy.photoPath}"  class="rounded img-thumbnail" alt="Avatar"/>
+                                        </g:link>
 
                                     </div>
                                     <div class="ml-3 w-100">
                                         <h4 class="mb-0 mt-0">${post.createdBy.firstName + " " + post.createdBy.lastName}</h4>
-                                        <span>@ ${post.createdBy.userName}</span>
+                                        <g:link controller="userProfile" action="index" params="[userId:post.createdBy.id]">
+                                            <span>@ ${post.createdBy.userName}</span>
+                                        </g:link>
                                         <div
                                                 class="
                           p-2
@@ -172,13 +210,13 @@
             <div>
                 <g:form class="list-group-item" controller="index" action="login">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
+                        <label for="exampleInputEmail1">Email address Or Username</label>
                         <input
-                                type="email"
+                                type="text"
                                 class="form-control"
                                 id="loginEmail"
                                 aria-describedby="emailHelp"
-                                placeholder="Enter email"
+                                %{--placeholder="Enter email"--}%
                                 required
                                 name="loginEmail"/>
                         <small id="email-Help"
@@ -195,6 +233,7 @@
                                 required
                                 name="loginPassowrd"/>
                     </div>
+                    <g:link controller="forgotPassword" action="index">Forgot Password?</g:link>
                     <button type="submit" class="btn btn-outline-primary">Login</button>
                     <g:if test="${flash.message}">
                         <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
@@ -211,6 +250,23 @@
             <br/>
 
             <div>
+
+                <g:if test="${flash.registerMessage}">
+                    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                        <strong>${flash.registerMessage}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </g:if>
+                <g:if test="${flash.error}">
+                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        <strong>${flash.error}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </g:if>
                 <h3 class="list-group-item active">Register</h3>
                 <g:form
 
@@ -286,15 +342,15 @@
                                 placeholder="Confirm Password"/>
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin">Admin</label>
-                        <input
-                                type="checkbox"
-                                class="form-control"
-                                id="admin"
-                                name="admin"
-                                required/>
-                    </div>
+                    %{--<div class="form-group">--}%
+                        %{--<label for="admin">Admin</label>--}%
+                        %{--<input--}%
+                                %{--type="checkbox"--}%
+                                %{--class="form-control"--}%
+                                %{--id="admin"--}%
+                                %{--name="admin"--}%
+                                %{--required/>--}%
+                    %{--</div>--}%
 
                     <div class="form-group">
                         <label for="photo">Photo</label>
@@ -309,22 +365,7 @@
                     <button type="submit" class="btn btn-danger">Register</button>
                 </g:form>
             </div>
-            <g:if test="${flash.registerMessage}">
-                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                    <strong>${flash.registerMessage}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </g:if>
-            <g:if test="${flash.error}">
-                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                    <strong>${flash.error.substring(0, 100)}...........</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </g:if>
+
         </div>
     </div>
 </div>
